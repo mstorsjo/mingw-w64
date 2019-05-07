@@ -21,6 +21,8 @@
 #include <stdarg.h>
 #include <memory.h>
 #include <internal.h>
+#include <sect_attribs.h>
+#include <corecrt_startup.h>
 
 #if defined(__CYGWIN__)
 #include <wchar.h>
@@ -485,3 +487,5 @@ _pei386_runtime_relocator (void)
   restore_modified_sections ();
 #endif /* __MINGW64_VERSION_MAJOR */
 }
+
+_CRTALLOC(".CRT$XIP") _PVFV __xi_p = _pei386_runtime_relocator;

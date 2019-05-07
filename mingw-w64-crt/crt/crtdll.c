@@ -38,7 +38,6 @@
 
 extern void __cdecl _initterm(_PVFV *,_PVFV *);
 extern void __main ();
-extern void _pei386_runtime_relocator (void);
 extern _CRTALLOC(".CRT$XIA") _PIFV __xi_a[];
 extern _CRTALLOC(".CRT$XIZ") _PIFV __xi_z[];
 extern _CRTALLOC(".CRT$XCA") _PVFV __xc_a[];
@@ -176,7 +175,6 @@ __DllMainCRTStartup (HANDLE hDllHandle, DWORD dwReason, LPVOID lpreserved)
 	retcode = FALSE;
 	goto i__leave;
     }
-  _pei386_runtime_relocator ();
   if (dwReason == DLL_PROCESS_ATTACH || dwReason == DLL_THREAD_ATTACH)
     {
         retcode = _CRT_INIT (hDllHandle, dwReason, lpreserved);
