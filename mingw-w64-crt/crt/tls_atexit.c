@@ -58,6 +58,7 @@ static void run_dtor_list(dtor_obj **ptr) {
     return;
   while (*ptr) {
     dtor_obj *cur = *ptr;
+    fprintf(stderr, "run_dtor_list obj %p\n", cur->obj); fflush(stderr);
     *ptr = cur->next;
     cur->dtor(cur->obj);
     free(cur);
@@ -87,8 +88,12 @@ int __mingw_cxa_thread_atexit(dtor_fn dtor, void *obj, void *dso) {
 }
 
 static void WINAPI tls_atexit_callback(HANDLE __UNUSED_PARAM(hDllHandle), DWORD dwReason, LPVOID __UNUSED_PARAM(lpReserved)) {
+  fprintf(stderr, "tls_atexit_callback reason %d\n", dwReason);
+  fflush(stderr);
   if (dwReason == DLL_PROCESS_DETACH) {
     dtor_obj **p = (dtor_obj **)TlsGetValue(tls_dtors_slot);
+    fprintf(stderr, "tls_atexit_callback DLL_PROCESS_DETACH\n");
+    fflush(stderr);
     run_dtor_list(p);
     free(p);
     TlsSetValue(tls_dtors_slot, NULL);
@@ -101,6 +106,8 @@ static void WINAPI tls_callback(HANDLE hDllHandle, DWORD dwReason, LPVOID __UNUS
   dtor_obj **p;
   switch (dwReason) {
   case DLL_PROCESS_ATTACH:
+    fprintf(stderr, "tls_callback DLL_PROCESS_ATTACH\n");
+    fflush(stderr);
     if (inited == 0) {
       InitializeCriticalSection(&lock);
       __dso_handle = hDllHandle;
@@ -121,6 +128,8 @@ static void WINAPI tls_callback(HANDLE hDllHandle, DWORD dwReason, LPVOID __UNUS
     inited = 1;
     break;
   case DLL_PROCESS_DETACH:
+    fprintf(stderr, "tls_callback DLL_PROCESS_DETACH\n");
+    fflush(stderr);
     /*
      * If there are other threads still running that haven't been detached,
      * we don't attempt to run their destructors (MSVC doesn't either), but
@@ -142,7 +151,11 @@ static void WINAPI tls_callback(HANDLE hDllHandle, DWORD dwReason, LPVOID __UNUS
      * standard says, but differs from what MSVC does with a dynamically
      * linked CRT (which still runs TLS destructors for the main thread).
      */
+    fprintf(stderr, "tls_callback DLL_PROCESS_DETACH1\n");
+    fflush(stderr);
     if (__mingw_module_is_dll) {
+      fprintf(stderr, "tls_callback DLL_PROCESS_DETACH2\n");
+      fflush(stderr);
       p = (dtor_obj **)TlsGetValue(tls_dtors_slot);
       run_dtor_list(p);
       free(p);
@@ -151,17 +164,31 @@ static void WINAPI tls_callback(HANDLE hDllHandle, DWORD dwReason, LPVOID __UNUS
        * thread local atexit callback, to make sure they don't run when
        * exiting the process with _exit or ExitProcess. */
       run_dtor_list(&global_dtors);
+      fprintf(stderr, "tls_callback DLL_PROCESS_DETACH3\n");
+      fflush(stderr);
       TlsFree(tls_dtors_slot);
     }
+    fprintf(stderr, "tls_callback DLL_PROCESS_DETACH4\n");
+    fflush(stderr);
     if (inited == 1) {
       inited = 0;
+      fprintf(stderr, "tls_callback DLL_PROCESS_DETACH5\n");
+      fflush(stderr);
       DeleteCriticalSection(&lock);
+      fprintf(stderr, "tls_callback DLL_PROCESS_DETACH6\n");
+      fflush(stderr);
     }
+    fprintf(stderr, "tls_callback DLL_PROCESS_DETACH7\n");
+    fflush(stderr);
     break;
   case DLL_THREAD_ATTACH:
+    fprintf(stderr, "tls_callback DLL_THREAD_ATTACH\n");
+    fflush(stderr);
     break;
   case DLL_THREAD_DETACH:
     p = (dtor_obj **)TlsGetValue(tls_dtors_slot);
+    fprintf(stderr, "tls_callback DLL_THREAD_DETACH\n");
+    fflush(stderr);
     run_dtor_list(p);
     free(p);
     TlsSetValue(tls_dtors_slot, NULL);

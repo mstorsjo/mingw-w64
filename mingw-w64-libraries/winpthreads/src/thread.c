@@ -432,6 +432,7 @@ __dyn_tls_pthread (HANDLE hDllHandle, DWORD dwReason, LPVOID lpreserved)
 
   if (dwReason == DLL_PROCESS_DETACH)
     {
+      fprintf(stderr, "__dyn_tls_pthread DLL_PROCESS_DETACH\n"); fflush(stderr);
 #if defined(USE_VEH_FOR_MSC_SETTHREADNAME)
       if (lpreserved == NULL && SetThreadName_VEH_handle != NULL)
         {
@@ -444,6 +445,7 @@ __dyn_tls_pthread (HANDLE hDllHandle, DWORD dwReason, LPVOID lpreserved)
     }
   else if (dwReason == DLL_PROCESS_ATTACH)
     {
+      fprintf(stderr, "__dyn_tls_pthread DLL_PROCESS_ATTACH\n"); fflush(stderr);
 #if defined(USE_VEH_FOR_MSC_SETTHREADNAME)
       if (AddVectoredExceptionHandlerFuncPtr != NULL)
         SetThreadName_VEH_handle = AddVectoredExceptionHandlerFuncPtr (1, &SetThreadName_VEH);
@@ -454,6 +456,7 @@ __dyn_tls_pthread (HANDLE hDllHandle, DWORD dwReason, LPVOID lpreserved)
     }
   else if (dwReason == DLL_THREAD_DETACH)
     {
+      fprintf(stderr, "__dyn_tls_pthread DLL_THREAD_DETACH\n"); fflush(stderr);
       if (_pthread_tls != 0xffffffff)
 	t = (_pthread_v *)TlsGetValue(_pthread_tls);
       if (t && t->thread_noposix != 0)
@@ -971,6 +974,7 @@ _pthread_cleanup_dest (pthread_t t)
 {
 	_pthread_v *tv;
 	unsigned int i, j;
+	fprintf(stderr, "_pthread_cleanup_dest\n"); fflush(stderr);
 
 	if (!t)
 		return;
@@ -1110,6 +1114,7 @@ pthread_exit (void *res)
 
   id->ret_arg = res;
 
+  fprintf(stderr, "pthread_exit\n");
   _pthread_cleanup_dest (id->x);
   if (id->thread_noposix == 0)
     longjmp(id->jb, 1);
@@ -1567,6 +1572,7 @@ pthread_create_wrapper (void *args)
       pthread_mutex_lock (&mtx_pthr_locked);
       tv->ret_arg = (void*) trslt;
       /* Clean up destructors */
+      fprintf(stderr, "pthread_create_wrapper calling cleanup\n");
       _pthread_cleanup_dest(tv->x);
     }
   else

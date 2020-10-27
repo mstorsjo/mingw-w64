@@ -79,6 +79,8 @@ __dyn_tls_init (HANDLE hDllHandle, DWORD dwReason, LPVOID lpreserved)
   _PVFV *pfunc;
   uintptr_t ps;
 
+  fprintf(stderr, "__dyn_tls_init reason %d\n", dwReason);
+  fflush(stderr);
   /* We don't let us trick here.  */
   if (_CRT_MT != 2)
    _CRT_MT = 2;
@@ -141,6 +143,8 @@ __dyn_tls_dtor (HANDLE hDllHandle, DWORD dwReason, LPVOID lpreserved)
   int i;
 #endif
 
+  fprintf(stderr, "__dyn_tls_dtor reason %d\n", dwReason);
+  fflush(stderr);
   if (dwReason != DLL_THREAD_DETACH && dwReason != DLL_PROCESS_DETACH)
     return TRUE;
   /* As TLS variables are detroyed already by DLL_THREAD_DETACH

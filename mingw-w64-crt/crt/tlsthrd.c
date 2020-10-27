@@ -16,6 +16,7 @@
 #endif
 #include <windows.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 extern void __cdecl __MINGW_NOTHROW _fpreset (void);
 WINBOOL __mingw_TLScallback (HANDLE hDllHandle, DWORD reason, LPVOID reserved);
@@ -126,11 +127,15 @@ __mingw_TLScallback (HANDLE __UNUSED_PARAM(hDllHandle),
   switch (reason)
     {
     case DLL_PROCESS_ATTACH:
+      fprintf(stderr, "__mingw_TLScallback DLL_PROCESS_ATTACH\n");
+      fflush(stderr);
       if (__mingwthr_cs_init == 0)
         InitializeCriticalSection (&__mingwthr_cs);
       __mingwthr_cs_init = 1;
       break;
     case DLL_PROCESS_DETACH:
+      fprintf(stderr, "__mingw_TLScallback DLL_PROCESS_DETACH\n");
+      fflush(stderr);
       __mingwthr_run_key_dtors();
       if (__mingwthr_cs_init == 1)
         {
@@ -147,9 +152,13 @@ __mingw_TLScallback (HANDLE __UNUSED_PARAM(hDllHandle),
         }
       break;
     case DLL_THREAD_ATTACH:
+      fprintf(stderr, "__mingw_TLScallback DLL_THREAD_ATTACH\n");
+      fflush(stderr);
       _fpreset();
       break;
     case DLL_THREAD_DETACH:
+      fprintf(stderr, "__mingw_TLScallback DLL_THREAD_DETACH\n");
+      fflush(stderr);
       __mingwthr_run_key_dtors();
       break;
     }
