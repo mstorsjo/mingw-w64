@@ -1709,7 +1709,7 @@ cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 #define $2 innocuous_$2
 
 /* System header to define __stub macros and hopefully few prototypes,
-   which can conflict with char $2 (void); below.  */
+   which can conflict with char $2 (); below.  */
 
 #include <limits.h>
 #undef $2
@@ -1720,7 +1720,7 @@ cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 #ifdef __cplusplus
 extern "C"
 #endif
-char $2 (void);
+char $2 ();
 /* The GNU C library defines this for functions which it implements
     to always fail with ENOSYS.  Some functions are actually named
     something starting with __ and the normal name is an alias.  */
@@ -2063,7 +2063,9 @@ struct stat;
 /* Most of the following tests are stolen from RCS 5.7 src/conf.sh.  */
 struct buf { int x; };
 struct buf * (*rcsopen) (struct buf *, struct stat *, int);
-static char *e (char **p, int i)
+static char *e (p, i)
+     char **p;
+     int i;
 {
   return p[i];
 }
@@ -2131,7 +2133,6 @@ extern int puts (const char *);
 extern int printf (const char *, ...);
 extern int dprintf (int, const char *, ...);
 extern void *malloc (size_t);
-extern void free (void *);
 
 // Check varargs macros.  These examples are taken from C99 6.10.3.5.
 // dprintf is used instead of fprintf to avoid needing to declare
@@ -13530,14 +13531,8 @@ cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 
 /* Override any GCC internal prototype to avoid an error.
    Use char because int might match the return type of a GCC
-   builtin and then its argument prototype would still apply.
-   The 'extern "C"' is for builds by C++ compilers;
-   although this is not generally supported in C code supporting it here
-   has little cost and some practical benefit (sr 110532).  */
-#ifdef __cplusplus
-extern "C"
-#endif
-char dlopen (void);
+   builtin and then its argument prototype would still apply.  */
+char dlopen ();
 int
 main (void)
 {
@@ -13604,14 +13599,8 @@ cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 
 /* Override any GCC internal prototype to avoid an error.
    Use char because int might match the return type of a GCC
-   builtin and then its argument prototype would still apply.
-   The 'extern "C"' is for builds by C++ compilers;
-   although this is not generally supported in C code supporting it here
-   has little cost and some practical benefit (sr 110532).  */
-#ifdef __cplusplus
-extern "C"
-#endif
-char shl_load (void);
+   builtin and then its argument prototype would still apply.  */
+char shl_load ();
 int
 main (void)
 {
@@ -13659,14 +13648,8 @@ cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 
 /* Override any GCC internal prototype to avoid an error.
    Use char because int might match the return type of a GCC
-   builtin and then its argument prototype would still apply.
-   The 'extern "C"' is for builds by C++ compilers;
-   although this is not generally supported in C code supporting it here
-   has little cost and some practical benefit (sr 110532).  */
-#ifdef __cplusplus
-extern "C"
-#endif
-char dlopen (void);
+   builtin and then its argument prototype would still apply.  */
+char dlopen ();
 int
 main (void)
 {
@@ -13709,14 +13692,8 @@ cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 
 /* Override any GCC internal prototype to avoid an error.
    Use char because int might match the return type of a GCC
-   builtin and then its argument prototype would still apply.
-   The 'extern "C"' is for builds by C++ compilers;
-   although this is not generally supported in C code supporting it here
-   has little cost and some practical benefit (sr 110532).  */
-#ifdef __cplusplus
-extern "C"
-#endif
-char dlopen (void);
+   builtin and then its argument prototype would still apply.  */
+char dlopen ();
 int
 main (void)
 {
@@ -13759,14 +13736,8 @@ cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 
 /* Override any GCC internal prototype to avoid an error.
    Use char because int might match the return type of a GCC
-   builtin and then its argument prototype would still apply.
-   The 'extern "C"' is for builds by C++ compilers;
-   although this is not generally supported in C code supporting it here
-   has little cost and some practical benefit (sr 110532).  */
-#ifdef __cplusplus
-extern "C"
-#endif
-char dld_link (void);
+   builtin and then its argument prototype would still apply.  */
+char dld_link ();
 int
 main (void)
 {
