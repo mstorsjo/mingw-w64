@@ -338,3 +338,14 @@ int __cdecl atexit (_PVFV func)
 }
 
 char __mingw_module_is_dll = 0;
+
+#if defined(__clang__) && defined(SEH_INLINE_ASM)
+// If building with LLVM LTO, the reference to __C_specific_handler in
+// .seh_handler in asm() above won't be visible to linking until actually
+// compiling all the LTO objects. If __C_specific_handler is provided as
+// an LTO object (as part of libucrtapp.a), it needs to be included directly.
+// Make a visible reference so that the linker knows that this function will
+// be needed.
+__attribute__((used))
+void *__personality_ptr = (void*)__C_specific_handler;
+#endif
