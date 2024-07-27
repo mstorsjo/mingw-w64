@@ -16,7 +16,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: mstorsjo/llvm-mingw
-          ref: 20240619
+          ref: 20240726
       - name: Check out the mingw-w64 version to be tested
         uses: actions/checkout@v4
         with:
@@ -36,7 +36,7 @@ jobs:
         run: |
           sudo apt-get update && sudo apt-get install ninja-build
           DISTRO=ubuntu-20.04-x86_64
-          curl -LO https://github.com/mstorsjo/llvm-mingw/releases/download/20240619/llvm-mingw-20240619-ucrt-$DISTRO.tar.xz
+          curl -LO https://github.com/mstorsjo/llvm-mingw/releases/download/20240726/llvm-mingw-20240726-ucrt-$DISTRO.tar.xz
           tar -Jxf llvm-mingw-*.tar.xz
           rm llvm-mingw-*.tar.xz
           mkdir install
@@ -64,7 +64,7 @@ jobs:
           cd cross
 
           for arch in i686 x86_64; do
-            curl -LO https://github.com/mstorsjo/llvm-mingw/releases/download/20240619/llvm-mingw-20240619-${{matrix.crt}}-$arch.zip
+            curl -LO https://github.com/mstorsjo/llvm-mingw/releases/download/20240726/llvm-mingw-20240726-${{matrix.crt}}-$arch.zip
             unzip -q llvm-mingw-*.zip
             rm llvm-mingw-*.zip
             mv llvm-mingw-* llvm-mingw
@@ -124,7 +124,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: mstorsjo/llvm-mingw
-          ref: 20240619
+          ref: 20240726
       - name: Run tests
         run: |
           ./run-tests.sh /llvm-mingw
@@ -175,7 +175,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: mstorsjo/llvm-mingw
-          ref: 20240619
+          ref: 20240726
       - name: Checkout llvm-project
         run: |
           bash -c "CHECKOUT_ONLY=1 ./build-llvm.sh"
@@ -498,7 +498,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: mstorsjo/llvm-mingw
-          ref: 20240619
+          ref: 20240726
       - name: Run tests
         run: |
           g++ test/hello.c -o hello.exe
