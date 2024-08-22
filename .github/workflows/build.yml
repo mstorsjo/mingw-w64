@@ -36,12 +36,12 @@ jobs:
         run: |
           sudo apt-get update && sudo apt-get install ninja-build
           DISTRO=ubuntu-20.04-x86_64
-          curl -LO https://github.com/mstorsjo/llvm-mingw/releases/download/20240805/llvm-mingw-20240805-ucrt-$DISTRO.tar.xz
+          curl -LO https://github.com/mstorsjo/llvm-mingw/releases/download/20240805/llvm-mingw-20240805-${{matrix.crt}}-$DISTRO.tar.xz
           tar -Jxf llvm-mingw-*.tar.xz
           rm llvm-mingw-*.tar.xz
           mkdir install
           mv llvm-mingw-*-ubuntu-* install/llvm-mingw
-          ./build-all.sh $(pwd)/install/llvm-mingw --no-tools --wipe-runtimes --with-default-msvcrt=${{matrix.crt}}
+          ./build-mingw-w64.sh $(pwd)/install/llvm-mingw --with-default-msvcrt=${{matrix.crt}}
           ./test-libcxx-module.sh $(pwd)/install/llvm-mingw
           # Run basic smoke tests on the reassembled toolchain
           RUN_I686=false RUN_X86_64=false ./run-tests.sh $(pwd)/install/llvm-mingw
