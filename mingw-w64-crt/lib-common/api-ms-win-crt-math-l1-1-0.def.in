@@ -342,7 +342,7 @@ norm
 normf
 norml
 pow
-F_NON_I386(powf)
+powf
 F_ARM_ANY(powl == pow)
 remainder
 remainderf
