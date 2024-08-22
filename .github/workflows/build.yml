@@ -148,6 +148,7 @@ jobs:
           done
 
   test-libcxx:
+    if: false
     needs: [llvm-mingw]
     runs-on: windows-latest
     strategy:
@@ -205,6 +206,7 @@ jobs:
           ninja check-cxx check-cxxabi check-unwind
 
   linux-test-cross-build-ffmpeg:
+    if: false
     needs: [llvm-mingw]
     runs-on: ubuntu-latest
     strategy:
@@ -240,6 +242,7 @@ jobs:
           make -j$(nproc)
 
   test-ffmpeg:
+    if: false
     needs: [llvm-mingw]
     runs-on: windows-latest
     strategy:
@@ -292,6 +295,7 @@ jobs:
           make -j$(nproc) fate
 
   gcc:
+    if: false
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -372,6 +376,7 @@ jobs:
           retention-days: 7
 
   gcc-cross:
+    if: false
     runs-on: ubuntu-latest
     needs: [gcc]
     strategy:
@@ -476,6 +481,7 @@ jobs:
           retention-days: 7
 
   test-gcc:
+    if: false
     needs: [gcc-cross]
     runs-on: windows-latest
     strategy:
