@@ -10,6 +10,7 @@ jobs:
       matrix:
         crt:
           - ucrt
+          - ucrtbase
           - msvcrt
     steps:
       - name: Check out llvm-mingw build scripts
@@ -36,7 +37,11 @@ jobs:
         run: |
           sudo apt-get update && sudo apt-get install ninja-build
           DISTRO=ubuntu-20.04-x86_64
-          curl -LO https://github.com/mstorsjo/llvm-mingw/releases/download/20240805/llvm-mingw-20240805-${{matrix.crt}}-$DISTRO.tar.xz
+          src_crt=${{matrix.crt}}
+          if [ "$src_crt" = "ucrtbase" ]; then
+              src_crt=ucrt
+          fi
+          curl -LO https://github.com/mstorsjo/llvm-mingw/releases/download/20240805/llvm-mingw-20240805-$src_crt-$DISTRO.tar.xz
           tar -Jxf llvm-mingw-*.tar.xz
           rm llvm-mingw-*.tar.xz
           mkdir install
@@ -64,7 +69,11 @@ jobs:
           cd cross
 
           for arch in i686 x86_64; do
-            curl -LO https://github.com/mstorsjo/llvm-mingw/releases/download/20240805/llvm-mingw-20240805-${{matrix.crt}}-$arch.zip
+            src_crt=${{matrix.crt}}
+            if [ "$src_crt" = "ucrtbase" ]; then
+                src_crt=ucrt
+            fi
+            curl -LO https://github.com/mstorsjo/llvm-mingw/releases/download/20240805/llvm-mingw-20240805-$src_crt-$arch.zip
             unzip -q llvm-mingw-*.zip
             rm llvm-mingw-*.zip
             mv llvm-mingw-* llvm-mingw
@@ -103,6 +112,7 @@ jobs:
           - i686
         crt:
           - ucrt
+          - ucrtbase
           - msvcrt
     steps:
       - uses: msys2/setup-msys2@v2
