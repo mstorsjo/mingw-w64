@@ -487,7 +487,9 @@ src_msvcrt32=\
   misc/wctob.c \
   stdio/_fstat64i32.c \
   stdio/_scprintf.c \
+  stdio/_scwprintf.c \
   stdio/_vscprintf.c \
+  stdio/_vscwprintf.c \
   string/wcstok.c
 
 # Files included in libmsvcrt-os.a (for msvcrt.dll) on x86_64
@@ -745,7 +747,9 @@ src_crtdll=\
   misc/wctype.c \
   stdio/_filelengthi64.c \
   stdio/_scprintf.c \
+  stdio/_scwprintf.c \
   stdio/_vscprintf.c \
+  stdio/_vscwprintf.c \
   stdio/atoll.c \
   stdio/fgetpos.c \
   stdio/fsetpos.c \
@@ -812,7 +816,9 @@ src_msvcrt10=\
   misc/wctype.c \
   stdio/_filelengthi64.c \
   stdio/_scprintf.c \
+  stdio/_scwprintf.c \
   stdio/_vscprintf.c \
+  stdio/_vscwprintf.c \
   stdio/atoll.c \
   stdio/fgetpos.c \
   stdio/fsetpos.c \
@@ -860,7 +866,9 @@ src_msvcrt20=\
   misc/wctype.c \
   stdio/_filelengthi64.c \
   stdio/_scprintf.c \
+  stdio/_scwprintf.c \
   stdio/_vscprintf.c \
+  stdio/_vscwprintf.c \
   stdio/atoll.c \
   stdio/fgetpos.c \
   stdio/fsetpos.c \
@@ -902,7 +910,9 @@ src_msvcrt40=\
   misc/wctrans.c \
   misc/wctype.c \
   stdio/_scprintf.c \
+  stdio/_scwprintf.c \
   stdio/_vscprintf.c \
+  stdio/_vscwprintf.c \
   stdio/atoll.c \
   stdio/fseeki64.c \
   stdio/mingw_dummy__lock.c \
