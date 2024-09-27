@@ -2262,7 +2262,7 @@ wcsstr
 wcstod
 wcstof
 wcstoimax
-wcstok
+_wcstok == wcstok ; rename wcstok to _wcstok for compatibility with UCRT, real C95+ compatible wcstok provided by wcstok_s alias
 wcstok_s
 wcstol
 wcstold
@@ -2285,4 +2285,5 @@ wprintf_s
 wscanf
 wscanf_s
 
+#define USE_WCSTOK_S_FOR_WCSTOK
 #include "crt-aliases.def.in"
