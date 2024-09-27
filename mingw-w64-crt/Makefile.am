@@ -751,6 +751,7 @@ src_crtdll=\
   stdio/_vscprintf.c \
   stdio/_vscwprintf.c \
   stdio/atoll.c \
+  stdio/fgetws.c \
   stdio/fputws.c \
   stdio/fgetpos.c \
   stdio/fsetpos.c \
@@ -821,6 +822,7 @@ src_msvcrt10=\
   stdio/_vscprintf.c \
   stdio/_vscwprintf.c \
   stdio/atoll.c \
+  stdio/fgetws.c \
   stdio/fputws.c \
   stdio/fgetpos.c \
   stdio/fsetpos.c \
