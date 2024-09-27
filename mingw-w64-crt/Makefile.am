@@ -391,7 +391,8 @@ src_ucrtbase=\
   stdio/ucrt_vscanf.c \
   stdio/ucrt_vsnprintf.c \
   stdio/ucrt_vsprintf.c \
-  stdio/ucrt_vsscanf.c
+  stdio/ucrt_vsscanf.c \
+  string/ucrt__wcstok.c
 
 # Files included in libucrtapp.a
 src_ucrtapp=\
@@ -482,7 +483,8 @@ src_msvcrt32=\
   misc/wctob.c \
   stdio/_fstat64i32.c \
   stdio/_scprintf.c \
-  stdio/_vscprintf.c
+  stdio/_vscprintf.c \
+  string/wcstok.c
 
 # Files included in libmsvcrt-os.a (for msvcrt.dll) on x86_64
 src_msvcrt64=\
@@ -527,7 +529,8 @@ src_msvcrt64=\
   misc/wassert.c \
   misc/wcrtomb.c \
   misc/wcsnlen.c \
-  misc/wctob.c
+  misc/wctob.c \
+  string/wcstok.c
 
 # Files included in libmsvcrt-os.a (for msvcrt.dll) on arm32
 src_msvcrtarm32=\
@@ -745,7 +748,8 @@ src_crtdll=\
   stdio/fseeki64.c \
   stdio/iob_func.c \
   stdio/mingw_dummy__lock.c \
-  stdio/mingw_lock.c
+  stdio/mingw_lock.c \
+  string/wcstok.c
 
 src_msvcrt10=\
   misc/crtdll__getmainargs.c \
@@ -811,7 +815,8 @@ src_msvcrt10=\
   stdio/fseeki64.c \
   stdio/iob_func.c \
   stdio/mingw_dummy__lock.c \
-  stdio/mingw_lock.c
+  stdio/mingw_lock.c \
+  string/wcstok.c
 
 src_msvcrt20=\
   misc/msvcrt20__getmainargs.c \
@@ -857,7 +862,8 @@ src_msvcrt20=\
   stdio/fsetpos.c \
   stdio/fseeki64.c \
   stdio/mingw_dummy__lock.c \
-  stdio/mingw_lock.c
+  stdio/mingw_lock.c \
+  string/wcstok.c
 
 src_msvcrt40=\
   misc/___mb_cur_max_func.c \
@@ -896,7 +902,8 @@ src_msvcrt40=\
   stdio/atoll.c \
   stdio/fseeki64.c \
   stdio/mingw_dummy__lock.c \
-  stdio/mingw_lock.c
+  stdio/mingw_lock.c \
+  string/wcstok.c
 
 src_msvcr70=\
   misc/__p__osplatform.c \
@@ -922,7 +929,8 @@ src_msvcr70=\
   misc/wctype.c \
   stdio/_fstat64i32.c \
   stdio/fseeki64.c \
-  stdio/mingw_lock.c
+  stdio/mingw_lock.c \
+  string/wcstok.c
 
 src_msvcr71=\
   misc/__p__osplatform.c \
@@ -948,7 +956,8 @@ src_msvcr71=\
   misc/wctype.c \
   stdio/_fstat64i32.c \
   stdio/fseeki64.c \
-  stdio/mingw_lock.c
+  stdio/mingw_lock.c \
+  string/wcstok.c
 
 src_msvcr80=\
   misc/imaxdiv.c \

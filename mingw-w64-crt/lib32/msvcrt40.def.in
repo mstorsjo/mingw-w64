@@ -1609,7 +1609,7 @@ wcsrchr
 wcsspn
 wcsstr
 wcstod
-wcstok
+_wcstok == wcstok ; rename wcstok to _wcstok for compatibility with UCRT, real C95+ compatible wcstok provided by mingw-w64
 wcstol
 wcstombs
 wcstoul
