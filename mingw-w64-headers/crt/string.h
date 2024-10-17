@@ -150,7 +150,7 @@ extern "C" {
   #define wcstok _wcstok
 #endif
 #if !defined(__CRT__NO_INLINE) && !defined(_CRT_NO_INLINE_DEPRECATED_WCSTOK) && defined(__cplusplus)
-  __CRT_INLINE wchar_t *__cdecl wcstok(wchar_t * __restrict__ _Str,const wchar_t * __restrict__ _Delim) { return _wcstok(_Str, _Delim); }
+  extern "C++" __CRT_INLINE wchar_t *__cdecl wcstok(wchar_t * __restrict__ _Str,const wchar_t * __restrict__ _Delim) { return _wcstok(_Str, _Delim); }
 #endif
   _CRTIMP wchar_t *__cdecl _wcserror(int _ErrNum) __MINGW_ATTRIB_DEPRECATED_SEC_WARN;
   _CRTIMP wchar_t *__cdecl __wcserror(const wchar_t *_Str) __MINGW_ATTRIB_DEPRECATED_SEC_WARN;
