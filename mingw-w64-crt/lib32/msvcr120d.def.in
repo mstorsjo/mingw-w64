@@ -2300,8 +2300,6 @@ vfwscanf
 vfwscanf_s
 vprintf
 vprintf_s
-snwprintf == _snwprintf
-vsnwprintf == _vsnwprintf
 vscanf
 vscanf_s
 vsprintf
@@ -2342,7 +2340,7 @@ wcsstr
 wcstod
 wcstof
 wcstoimax
-wcstok
+_wcstok == wcstok ; rename wcstok to _wcstok for compatibility with UCRT, real C95+ compatible wcstok provided by wcstok_s alias
 wcstok_s
 wcstol
 ; wcstold ; Can't use long double functions from the CRT on x86
@@ -2365,4 +2363,5 @@ wprintf_s
 wscanf
 wscanf_s
 
+#define USE_WCSTOK_S_FOR_WCSTOK
 #include "crt-aliases.def.in"

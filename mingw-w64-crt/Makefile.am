@@ -172,7 +172,11 @@ src_msvcrt_common=\
   stdio/acrt_iob_func.c \
   stdio/strtof.c \
   stdio/snprintf_alias.c \
+  stdio/swprintf.c \
+  stdio/swprintf_alias.c \
   stdio/vsnprintf_alias.c \
+  stdio/vswprintf.c \
+  stdio/vswprintf_alias.c \
   math/cbrt.c math/cbrtf.c \
   math/copysign.c math/copysignf.c \
   math/coshf.c \
@@ -391,7 +395,8 @@ src_ucrtbase=\
   stdio/ucrt_vscanf.c \
   stdio/ucrt_vsnprintf.c \
   stdio/ucrt_vsprintf.c \
-  stdio/ucrt_vsscanf.c
+  stdio/ucrt_vsscanf.c \
+  string/ucrt__wcstok.c
 
 # Files included in libucrtapp.a
 src_ucrtapp=\
@@ -482,7 +487,10 @@ src_msvcrt32=\
   misc/wctob.c \
   stdio/_fstat64i32.c \
   stdio/_scprintf.c \
-  stdio/_vscprintf.c
+  stdio/_scwprintf.c \
+  stdio/_vscprintf.c \
+  stdio/_vscwprintf.c \
+  string/wcstok.c
 
 # Files included in libmsvcrt-os.a (for msvcrt.dll) on x86_64
 src_msvcrt64=\
@@ -527,7 +535,8 @@ src_msvcrt64=\
   misc/wassert.c \
   misc/wcrtomb.c \
   misc/wcsnlen.c \
-  misc/wctob.c
+  misc/wctob.c \
+  string/wcstok.c
 
 # Files included in libmsvcrt-os.a (for msvcrt.dll) on arm32
 src_msvcrtarm32=\
@@ -738,14 +747,19 @@ src_crtdll=\
   misc/wctype.c \
   stdio/_filelengthi64.c \
   stdio/_scprintf.c \
+  stdio/_scwprintf.c \
   stdio/_vscprintf.c \
+  stdio/_vscwprintf.c \
   stdio/atoll.c \
+  stdio/fgetws.c \
+  stdio/fputws.c \
   stdio/fgetpos.c \
   stdio/fsetpos.c \
   stdio/fseeki64.c \
   stdio/iob_func.c \
   stdio/mingw_dummy__lock.c \
-  stdio/mingw_lock.c
+  stdio/mingw_lock.c \
+  string/wcstok.c
 
 src_msvcrt10=\
   misc/crtdll__getmainargs.c \
@@ -804,14 +818,19 @@ src_msvcrt10=\
   misc/wctype.c \
   stdio/_filelengthi64.c \
   stdio/_scprintf.c \
+  stdio/_scwprintf.c \
   stdio/_vscprintf.c \
+  stdio/_vscwprintf.c \
   stdio/atoll.c \
+  stdio/fgetws.c \
+  stdio/fputws.c \
   stdio/fgetpos.c \
   stdio/fsetpos.c \
   stdio/fseeki64.c \
   stdio/iob_func.c \
   stdio/mingw_dummy__lock.c \
-  stdio/mingw_lock.c
+  stdio/mingw_lock.c \
+  string/wcstok.c
 
 src_msvcrt20=\
   misc/msvcrt20__getmainargs.c \
@@ -851,13 +870,16 @@ src_msvcrt20=\
   misc/wctype.c \
   stdio/_filelengthi64.c \
   stdio/_scprintf.c \
+  stdio/_scwprintf.c \
   stdio/_vscprintf.c \
+  stdio/_vscwprintf.c \
   stdio/atoll.c \
   stdio/fgetpos.c \
   stdio/fsetpos.c \
   stdio/fseeki64.c \
   stdio/mingw_dummy__lock.c \
-  stdio/mingw_lock.c
+  stdio/mingw_lock.c \
+  string/wcstok.c
 
 src_msvcrt40=\
   misc/___mb_cur_max_func.c \
@@ -892,11 +914,14 @@ src_msvcrt40=\
   misc/wctrans.c \
   misc/wctype.c \
   stdio/_scprintf.c \
+  stdio/_scwprintf.c \
   stdio/_vscprintf.c \
+  stdio/_vscwprintf.c \
   stdio/atoll.c \
   stdio/fseeki64.c \
   stdio/mingw_dummy__lock.c \
-  stdio/mingw_lock.c
+  stdio/mingw_lock.c \
+  string/wcstok.c
 
 src_msvcr70=\
   misc/__p__osplatform.c \
@@ -922,7 +947,8 @@ src_msvcr70=\
   misc/wctype.c \
   stdio/_fstat64i32.c \
   stdio/fseeki64.c \
-  stdio/mingw_lock.c
+  stdio/mingw_lock.c \
+  string/wcstok.c
 
 src_msvcr71=\
   misc/__p__osplatform.c \
@@ -948,7 +974,8 @@ src_msvcr71=\
   misc/wctype.c \
   stdio/_fstat64i32.c \
   stdio/fseeki64.c \
-  stdio/mingw_lock.c
+  stdio/mingw_lock.c \
+  string/wcstok.c
 
 src_msvcr80=\
   misc/imaxdiv.c \
@@ -4311,6 +4338,21 @@ testcase_progs = \
   testcases/t_matherr \
   testcases/t_nullptrexception \
   testcases/t_readdir \
+  testcases/t_snprintf \
+  testcases/t_snprintf0 \
+  testcases/t_snprintf1 \
+  testcases/t_swprintf \
+  testcases/t_swprintf0 \
+  testcases/t_swprintf1 \
+  testcases/t_snwprintf \
+  testcases/t_snwprintf0 \
+  testcases/t_snwprintf1 \
+  testcases/t_stprintf_a \
+  testcases/t_stprintf_u \
+  testcases/t_stprintf0_a \
+  testcases/t_stprintf0_u \
+  testcases/t_stprintf1_a \
+  testcases/t_stprintf1_u \
   testcases/t_setjmp \
   testcases/t_sigv \
   testcases/t_speed_powl \
