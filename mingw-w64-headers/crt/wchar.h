@@ -535,7 +535,7 @@ __MINGW_ASM_CALL(__mingw_vwprintf);
 
 /* __attribute__((__format__ (gnu_wprintf, 3, 4))) */ __MINGW_ATTRIB_NONNULL(3)
 int swprintf (wchar_t *__stream, size_t __n, const wchar_t *__format, ...)
-__MINGW_ASM_CALL(__mingw_vswprintf);
+__MINGW_ASM_CALL(__mingw_swprintf);
 
 /* __attribute__((__format__ (gnu_wprintf, 3, 0))) */ __MINGW_ATTRIB_NONNULL(3)
 int vswprintf (wchar_t *__stream, size_t __n, const wchar_t *__format, __builtin_va_list __local_argv)
