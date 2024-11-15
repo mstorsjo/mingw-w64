@@ -134,7 +134,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: mstorsjo/llvm-mingw
-          ref: 20241119
+          ref: c95-test
       - name: Run tests
         run: |
           ./run-tests.sh /llvm-mingw
