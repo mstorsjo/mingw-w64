@@ -1,0 +1,31 @@
+From fa67415bda5eb64f7280ff75b2a123489c823dc5 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Martin=20Storsj=C3=B6?= <martin@martin.st>
+Date: Tue, 11 Feb 2025 10:24:07 +0200
+Subject: [PATCH] wrappers: Force i686 and x86_64 to use -mlong-double-64
+
+---
+ wrappers/i686-w64-windows-gnu.cfg   | 1 +
+ wrappers/x86_64-w64-windows-gnu.cfg | 1 +
+ 2 files changed, 2 insertions(+)
+
+diff --git a/wrappers/i686-w64-windows-gnu.cfg b/wrappers/i686-w64-windows-gnu.cfg
+index efc00bf..9c3522c 100644
+--- a/wrappers/i686-w64-windows-gnu.cfg
++++ b/wrappers/i686-w64-windows-gnu.cfg
+@@ -1,3 +1,4 @@
+ -target i686-w64-mingw32
+ @mingw32-common.cfg
+ # Dwarf is the default for i686.
++-mlong-double-64
+diff --git a/wrappers/x86_64-w64-windows-gnu.cfg b/wrappers/x86_64-w64-windows-gnu.cfg
+index 0ced806..5e804b2 100644
+--- a/wrappers/x86_64-w64-windows-gnu.cfg
++++ b/wrappers/x86_64-w64-windows-gnu.cfg
+@@ -1,3 +1,4 @@
+ -target x86_64-w64-mingw32
+ @mingw32-common.cfg
+ # SEH is the default for x86_64.
++-mlong-double-64
+-- 
+2.43.0
+
