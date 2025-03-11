@@ -17,7 +17,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: mstorsjo/llvm-mingw
-          ref: 20241001
+          ref: 20250305
       - name: Check out the mingw-w64 version to be tested
         uses: actions/checkout@v4
         with:
@@ -41,7 +41,7 @@ jobs:
           if [ "$src_crt" = "ucrtbase" ]; then
               src_crt=ucrt
           fi
-          curl -LO https://github.com/mstorsjo/llvm-mingw/releases/download/20241001/llvm-mingw-20241001-$src_crt-$DISTRO.tar.xz
+          curl -LO https://github.com/mstorsjo/llvm-mingw/releases/download/20250305/llvm-mingw-20250305-$src_crt-$DISTRO.tar.xz
           tar -Jxf llvm-mingw-*.tar.xz
           rm llvm-mingw-*.tar.xz
           mkdir install
@@ -73,7 +73,7 @@ jobs:
             if [ "$src_crt" = "ucrtbase" ]; then
                 src_crt=ucrt
             fi
-            curl -LO https://github.com/mstorsjo/llvm-mingw/releases/download/20241001/llvm-mingw-20241001-$src_crt-$arch.zip
+            curl -LO https://github.com/mstorsjo/llvm-mingw/releases/download/20250305/llvm-mingw-20250305-$src_crt-$arch.zip
             unzip -q llvm-mingw-*.zip
             rm llvm-mingw-*.zip
             mv llvm-mingw-* llvm-mingw
@@ -134,7 +134,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: mstorsjo/llvm-mingw
-          ref: 20241119
+          ref: 20250305
       - name: Run tests
         run: |
           ./run-tests.sh /llvm-mingw
@@ -189,7 +189,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: mstorsjo/llvm-mingw
-          ref: 20241001
+          ref: 20250305
       - name: Checkout llvm-project
         run: |
           bash -c "CHECKOUT_ONLY=1 ./build-llvm.sh"
@@ -522,7 +522,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: mstorsjo/llvm-mingw
-          ref: 20241001
+          ref: 20250305
       - name: Run tests
         run: |
           g++ test/hello.c -o hello.exe
