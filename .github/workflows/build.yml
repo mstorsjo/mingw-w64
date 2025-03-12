@@ -199,8 +199,12 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - { arch: x86_64, prefix: i686-w64-mingw32- }
-          - { arch: x86_64, prefix: }
+          - { arch: x86_64, prefix: i686-w64-mingw32-, target: check-cxx }
+          - { arch: x86_64,                            target: check-cxx }
+          - { arch: x86_64, prefix: i686-w64-mingw32-, target: check-cxxabi }
+          - { arch: x86_64,                            target: check-cxxabi }
+          - { arch: x86_64, prefix: i686-w64-mingw32-, target: check-unwind }
+          - { arch: x86_64,                            target: check-unwind }
     steps:
       - name: Install dependencies
         run: |
@@ -248,7 +252,7 @@ jobs:
             -DCMAKE_INSTALL_MESSAGE=NEVER `
             -DLLVM_LIT_ARGS="-v --time-tests"
           ninja
-          ninja check-cxx check-cxxabi check-unwind
+          ninja ${{matrix.target}}
 
   linux-test-cross-build-ffmpeg:
     needs: [llvm-mingw]
