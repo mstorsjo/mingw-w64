@@ -1,0 +1,61 @@
+From 53e3fceb0a2e0858e3b22437a15115e975d884a7 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Martin=20Storsj=C3=B6?= <martin@martin.st>
+Date: Wed, 12 Mar 2025 23:46:56 +0200
+Subject: [PATCH 2/2] [libcxxabi] Use __LDBL_MANT_DIG__ for configuring
+ demangling of long doubles
+
+This avoids needing to hardcode the mapping between architectures
+and their sizes of long doubles.
+
+This fixes a case in test_demangle.pass.cpp, that previously failed
+liek this:
+
+    .---command stdout------------
+    | Testing 29859 symbols.
+    | _ZN5test01hIfEEvRAcvjplstT_Le4001a000000000000000E_c should be invalid but is not
+    | Got: 0, void test0::h<float>(char (&) [(unsigned int)(sizeof (float) + 0x0.07ff98f7ep-1022L)])
+    `-----------------------------
+    .---command stderr------------
+    | Assertion failed: !passed && "demangle did not fail", file libcxxabi/test/test_demangle.pass.cpp, line 30338
+    `-----------------------------
+
+This testcase is defined within
+
+    // Is long double fp80?  (Only x87 extended double has 64-bit mantissa)
+    #define LDBL_FP80 (__LDBL_MANT_DIG__ == 64)
+    ...
+    #if !LDBL_FP80
+    ...
+    #endif
+
+The case failed, by unexpectedly passing, when the demangler was
+capable of demangling an 80 bit long double, while the compiler
+actually is configured for a different size for that type.
+---
+ libcxxabi/src/demangle/ItaniumDemangle.h | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
+
+diff --git a/libcxxabi/src/demangle/ItaniumDemangle.h b/libcxxabi/src/demangle/ItaniumDemangle.h
+index 3df41b5f4d7d..1b0cb72cd471 100644
+--- a/libcxxabi/src/demangle/ItaniumDemangle.h
++++ b/libcxxabi/src/demangle/ItaniumDemangle.h
+@@ -5739,13 +5739,11 @@ struct FloatData<double>
+ template <>
+ struct FloatData<long double>
+ {
+-#if defined(__mips__) && defined(__mips_n64) || defined(__aarch64__) || \
+-    defined(__wasm__) || defined(__riscv) || defined(__loongarch__) || \
+-    defined(__ve__)
++#if __LDBL_MANT_DIG__ == 113
+     static const size_t mangled_size = 32;
+-#elif defined(__arm__) || defined(__mips__) || defined(__hexagon__)
++#elif __LDBL_MANT_DIG__ == 53
+     static const size_t mangled_size = 16;
+-#else
++#else // __LDBL_MANT_DIG__ == 64
+     static const size_t mangled_size = 20;  // May need to be adjusted to 16 or 24 on other platforms
+ #endif
+     // `-0x1.ffffffffffffffffffffffffffffp+16383` + 'L' + '\0' == 42 bytes.
+-- 
+2.43.0
+
