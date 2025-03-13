@@ -82,7 +82,11 @@ __expl_internal (long double x)
     "addl $8, %%esp\n\tpop %%eax\n"
 #endif
        "fld %%st(1)\n\t"        /* 3  i               */
+#if __SIZEOF_LONG_DOUBLE__ == __SIZEOF_DOUBLE__
+       "fldl %2\n\t"            /* 4  c0              */
+#else
        "fldt %2\n\t"            /* 4  c0              */
+#endif
        "fld %%st(2)\n\t"        /* 5  xi              */
        "fmul %%st(1),%%st\n\t"  /* 5  c0 xi           */
        "fsubp %%st,%%st(2)\n\t" /* 4  f = c0 xi  - i  */
@@ -90,7 +94,11 @@ __expl_internal (long double x)
        "fsub %%st(3),%%st\n\t"  /* 5  xf = x - xi     */
        "fmulp %%st,%%st(1)\n\t" /* 4  c0 xf           */
        "faddp %%st,%%st(1)\n\t" /* 3  f = f + c0 xf   */
+#if __SIZEOF_LONG_DOUBLE__ == __SIZEOF_DOUBLE__
+       "fldl %3\n\t"            /* 4                  */
+#else
        "fldt %3\n\t"            /* 4                  */
+#endif
        "fmul %%st(4),%%st\n\t"  /* 4  c1 * x          */
        "faddp %%st,%%st(1)\n\t" /* 3  f = f + c1 * x  */
        "f2xm1\n\t"		/* 3 2^(fract(x * log2(e))) - 1 */
