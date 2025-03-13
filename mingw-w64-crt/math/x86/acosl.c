@@ -4,9 +4,13 @@
  * No warranty is given; refer to the file DISCLAIMER.PD within this package.
  */
 long double acosl (long double x);
+double acos (double x);
 
 long double acosl (long double x)
 {
+#if __SIZEOF_LONG_DOUBLE__ == __SIZEOF_DOUBLE__
+  return acos (x);
+#else
   long double res = 0.0L;
 
   /* acosl = atanl (sqrtl(1 - x^2) / x) */
@@ -20,4 +24,5 @@ long double acosl (long double x)
 	"fpatan"
 	: "=t" (res) : "0" (x) : "st(1)");
   return res;
+#endif
 }

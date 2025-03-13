@@ -21,6 +21,9 @@
 	.globl __MINGW_USYMBOL(copysignl)
 	.def	__MINGW_USYMBOL(copysignl);	.scl	2;	.type	32;	.endef
 __MINGW_USYMBOL(copysignl):
+#if __SIZEOF_LONG_DOUBLE__ == __SIZEOF_DOUBLE__
+	jmp	__MINGW_USYMBOL(copysign)
+#else
 #if defined(_AMD64_) || defined(__x86_64__)
 	movq	(%rdx), %rax
 	movq	%rax, (%rcx)
@@ -41,4 +44,5 @@ __MINGW_USYMBOL(copysignl):
 	movl	%eax,12(%esp)
 	fldt	4(%esp)
 	ret
+#endif
 #endif

@@ -42,5 +42,13 @@
  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+#if __SIZEOF_LONG_DOUBLE__ == __SIZEOF_DOUBLE__
+#include <math.h>
+
+long double sinl(long double x) {
+    return sin(x);
+}
+#else
 #define _NEW_COMPLEX_LDOUBLE 1
 #include "sin.def.h"
+#endif

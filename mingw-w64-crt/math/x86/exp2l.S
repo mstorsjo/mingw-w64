@@ -15,6 +15,9 @@
 .globl __MINGW_USYMBOL(exp2l)
 	.def	__MINGW_USYMBOL(exp2l);	.scl	2;	.type	32;	.endef
 __MINGW_USYMBOL(exp2l):
+#if __SIZEOF_LONG_DOUBLE__ == __SIZEOF_DOUBLE__
+	jmp __MINGW_USYMBOL(exp2)
+#else
 #ifdef __x86_64__
 	fldt	(%rdx)
 	fxam				/* Is NaN or +-Inf?  */
@@ -89,4 +92,5 @@ __MINGW_USYMBOL(exp2l):
 	fstp	%st
 	fldz				/* Set result to 0.  */
 2:	ret
+#endif
 #endif
