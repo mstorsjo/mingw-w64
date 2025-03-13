@@ -42,5 +42,13 @@
  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+#if __SIZEOF_LONG_DOUBLE__ == __SIZEOF_DOUBLE__
+#include <math.h>
+
+long double powl(long double x, long double y) {
+    return pow(x, y);
+}
+#else
 #define _NEW_COMPLEX_LDOUBLE 1
 #include "pow.def.h"
+#endif

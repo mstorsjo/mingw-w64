@@ -14,6 +14,9 @@
 #endif
 .globl __MINGW_USYMBOL(remquol)
 __MINGW_USYMBOL(remquol):
+#if __SIZEOF_LONG_DOUBLE__ == __SIZEOF_DOUBLE__
+	jmp __MINGW_USYMBOL(remquo)
+#else
 #ifdef __x86_64__
  	pushq	%rcx
         fldt (%r8)
@@ -72,4 +75,5 @@ __MINGW_USYMBOL(remquol):
 1:	movl %eax, (%ecx)
       
         ret
+#endif
 #endif

@@ -28,6 +28,9 @@
 	.globl __MINGW_USYMBOL(_chgsignl)
 	.def	__MINGW_USYMBOL(_chgsignl);	.scl	2;	.type	32;	.endef
 __MINGW_USYMBOL(_chgsignl):
+#if __SIZEOF_LONG_DOUBLE__ == __SIZEOF_DOUBLE__
+	jmp	__MINGW_USYMBOL(_chgsign)
+#else
 #if defined(_AMD64_) || defined(__x86_64__)
 	movq	(%rdx), %rax
 	movq	8(%rdx), %rdx
@@ -42,5 +45,6 @@ __MINGW_USYMBOL(_chgsignl):
 	movl	%eax,12(%esp)
 	fldt	4(%esp)
 	ret
+#endif
 #endif
 
