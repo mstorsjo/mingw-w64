@@ -10,6 +10,9 @@
 long double
 modfl (long double value, long double* iptr)
 {
+#if __SIZEOF_LONG_DOUBLE__ == __SIZEOF_DOUBLE__
+  return modf(value, (double*) iptr);
+#else
   long double int_part = 0.0L;
   /* truncate */
 #if (defined(_AMD64_) && !defined(_ARM64EC_)) || (defined(__x86_64__) && !defined(__arm64ec__))
@@ -38,4 +41,5 @@ modfl (long double value, long double* iptr)
   if (iptr)
     *iptr = int_part;
   return (isinf (value) ?  0.0L : value - int_part);
+#endif
 }

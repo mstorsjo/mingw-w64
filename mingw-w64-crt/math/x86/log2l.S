@@ -21,6 +21,9 @@ limit:	.double 0.29
 .globl __MINGW_USYMBOL(log2l)
 	.def	__MINGW_USYMBOL(log2l);	.scl	2;	.type	32;	.endef
 __MINGW_USYMBOL(log2l):
+#if __SIZEOF_LONG_DOUBLE__ == __SIZEOF_DOUBLE__
+	jmp __MINGW_USYMBOL(log2)
+#else
 #ifdef __x86_64__
 	fldl	one(%rip)
 	fldt	(%rdx)		// x : 1
@@ -84,4 +87,5 @@ __MINGW_USYMBOL(log2l):
 	fstp	%st(1)
 	fstp	%st(1)
 	ret
+#endif
 #endif

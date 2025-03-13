@@ -42,5 +42,13 @@
  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+#if __SIZEOF_LONG_DOUBLE__ == __SIZEOF_DOUBLE__
+#include <math.h>
+
+long double sqrtl(long double x) {
+    return sqrt(x);
+}
+#else
 #define _NEW_COMPLEX_LDOUBLE 1
 #include "sqrt.def.h"
+#endif

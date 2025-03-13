@@ -42,5 +42,14 @@
  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+#if __SIZEOF_LONG_DOUBLE__ == __SIZEOF_DOUBLE__
+#include <math.h>
+
+long double logl(long double x) {
+    return log(x);
+}
+
+#else
 #define _NEW_COMPLEX_LDOUBLE 1
 #include "log.def.h"
+#endif
