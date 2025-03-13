@@ -23,7 +23,13 @@ limit:	.double 0.29
 __MINGW_USYMBOL(__logl_internal):
 #ifdef __x86_64__
 	fldln2			// log(2)
+#if __SIZEOF_LONG_DOUBLE__ == __SIZEOF_DOUBLE__
+	sub	$16, %rsp
+	movsd	%xmm0, (%rsp)
+	fldl	(%rsp)		// x : log(2)
+#else
 	fldt	(%rdx)		// x : log(2)
+#endif
 	fld	%st		// x : x : log(2)
 	fsubl	one(%rip)	// x-1 : x : log(2)
 	fld	%st		// x-1 : x-1 : x : log(2)
@@ -34,20 +40,36 @@ __MINGW_USYMBOL(__logl_internal):
 	jz	2f
 	fstp	%st(1)		// x-1 : log(2)
 	fyl2xp1			// log(x)
+#if __SIZEOF_LONG_DOUBLE__ == __SIZEOF_DOUBLE__
+	fstpl	(%rsp)
+	movsd	(%rsp), %xmm0
+	add	$16, %rsp
+#else
 	movq	%rcx,%rax
 	movq	$0,8(%rcx)
 	fstpt	(%rcx)
+#endif
 	ret
 
 2:	fstp	%st(0)		// x : log(2)
 	fyl2x			// log(x)
+#if __SIZEOF_LONG_DOUBLE__ == __SIZEOF_DOUBLE__
+	fstpl	(%rsp)
+	movsd	(%rsp), %xmm0
+	add	$16, %rsp
+#else
 	movq	%rcx,%rax
 	movq	$0,8(%rcx)
 	fstpt	(%rcx)
+#endif
 	ret
 #else
 	fldln2			// log(2)
+#if __SIZEOF_LONG_DOUBLE__ == __SIZEOF_DOUBLE__
+	fldl	4(%esp)		// x : log(2)
+#else
 	fldt	4(%esp)		// x : log(2)
+#endif
 	fld	%st		// x : x : log(2)
 	fsubl	one		// x-1 : x : log(2)
 	fld	%st		// x-1 : x-1 : x : log(2)
