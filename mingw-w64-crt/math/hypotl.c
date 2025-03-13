@@ -28,6 +28,9 @@ Direct inquiries to 30 Frost Street, Cambridge, MA 02140
 long double
 hypotl (long double x, long double y)
 {
+#if __SIZEOF_LONG_DOUBLE__ == __SIZEOF_DOUBLE__
+  return hypot(x, y);
+#else
   int exx;
   int eyy;
   int  scale;
@@ -79,4 +82,5 @@ hypotl (long double x, long double y)
 
   /* Undo scaling */
   return (scalbnl (xx, scale));
+#endif
 }

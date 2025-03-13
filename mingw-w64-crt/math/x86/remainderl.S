@@ -15,6 +15,9 @@
 .globl __MINGW_USYMBOL(remainderl)
 	.def	__MINGW_USYMBOL(remainderl);	.scl	2;	.type	32;	.endef
 __MINGW_USYMBOL(remainderl):
+#if __SIZEOF_LONG_DOUBLE__ == __SIZEOF_DOUBLE__
+	jmp	__MINGW_USYMBOL(remainder)
+#else
 #ifdef __x86_64__
 	fldt	(%r8)
 	fldt	(%rdx)
@@ -36,4 +39,5 @@ __MINGW_USYMBOL(remainderl):
 	jp	1b
 	fstp	%st(1)
 	ret
+#endif
 #endif

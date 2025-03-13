@@ -15,6 +15,9 @@
 	.globl __MINGW_USYMBOL(nearbyintl)
 	.def	__MINGW_USYMBOL(nearbyintl);	.scl	2;	.type	32;	.endef
 __MINGW_USYMBOL(nearbyintl):
+#if __SIZEOF_LONG_DOUBLE__ == __SIZEOF_DOUBLE__
+	jmp	__MINGW_USYMBOL(nearbyint)
+#else
 #if defined(_AMD64_) || defined(__x86_64__)
 	fldt	(%rdx)
 	movq	%rcx,%r8
@@ -49,4 +52,5 @@ __MINGW_USYMBOL(nearbyintl):
 	popl	%ecx
 	popl	%eax
 	ret
+#endif
 #endif

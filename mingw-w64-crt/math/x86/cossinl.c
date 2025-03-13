@@ -5,9 +5,13 @@
  */
 
 void sincosl (long double __x, long double *p_sin, long double *p_cos);
+void sincos (double __x, double *p_sin, double *p_cos);
 
 void sincosl (long double __x, long double *p_sin, long double *p_cos)
 {
+#if __SIZEOF_LONG_DOUBLE__ == __SIZEOF_DOUBLE__
+  sincos (__x, (double*) p_sin, (double*) p_cos);
+#else
   long double c, s;
 
   __asm__ __volatile__ ("fsincos\n\t"
@@ -26,4 +30,5 @@ void sincosl (long double __x, long double *p_sin, long double *p_cos)
     "1:" : "=t" (c), "=u" (s) : "0" (__x) : "eax");
   *p_sin = s;
   *p_cos = c;
+#endif
 }

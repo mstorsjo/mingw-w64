@@ -15,6 +15,9 @@
 .globl __MINGW_USYMBOL(ilogbl)
 	.def	__MINGW_USYMBOL(ilogbl);	.scl	2;	.type	32;	.endef
 __MINGW_USYMBOL(ilogbl):
+#if __SIZEOF_LONG_DOUBLE__ == __SIZEOF_DOUBLE__
+	jmp __MINGW_USYMBOL(ilogb)
+#else
 #ifdef __x86_64__
 	fldt	(%rcx)
 	fxam			/* Is NaN or +-Inf?  */
@@ -66,4 +69,5 @@ __MINGW_USYMBOL(ilogbl):
 1:	fstp	%st
 	movl	$0x7fffffff, %eax
 	ret
+#endif
 #endif

@@ -4,11 +4,16 @@
  * No warranty is given; refer to the file DISCLAIMER.PD within this package.
  */
 long double atan2l (long double y, long double x);
+double atan2 (double y, double x);
 
 long double
 atan2l (long double y, long double x)
 {
+#if __SIZEOF_LONG_DOUBLE__ == __SIZEOF_DOUBLE__
+  return atan2 (y, x);
+#else
   long double res = 0.0L;
   asm volatile ("fpatan" : "=t" (res) : "u" (y), "0" (x) : "st(1)");
   return res;
+#endif
 }

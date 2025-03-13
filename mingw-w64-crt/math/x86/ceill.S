@@ -15,6 +15,9 @@
 	.globl __MINGW_USYMBOL(ceill)
 	.def	__MINGW_USYMBOL(ceill);	.scl	2;	.type	32;	.endef
 __MINGW_USYMBOL(ceill):
+#if __SIZEOF_LONG_DOUBLE__ == __SIZEOF_DOUBLE__
+	jmp	__MINGW_USYMBOL(ceil)
+#else
 #if defined(_AMD64_) || defined(__x86_64__)
 	fldt	(%rdx)
 	subq	$24,%rsp
@@ -52,4 +55,5 @@ __MINGW_USYMBOL(ceill):
 	fldcw	4(%esp)
 	addl $8,%esp
 	ret
+#endif
 #endif

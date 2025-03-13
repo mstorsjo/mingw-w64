@@ -11,9 +11,13 @@
 
 /* asin = atan (x / sqrt(1 - x^2)) */
 long double asinl (long double x);
+double asin (double x);
 
 long double asinl (long double x)
 {
+#if __SIZEOF_LONG_DOUBLE__ == __SIZEOF_DOUBLE__
+  return asin (x);
+#else
   long double res = 0.0L;
 
   asm volatile (
@@ -25,4 +29,5 @@ long double asinl (long double x)
 	"fpatan"
 	: "=t" (res) : "0" (x) : "st(1)");
   return res;
+#endif
 }

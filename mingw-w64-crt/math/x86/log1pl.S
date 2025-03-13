@@ -38,6 +38,9 @@ one:	.double 1.0
 .globl __MINGW_USYMBOL(log1pl)
 	.def	__MINGW_USYMBOL(log1pl);	.scl	2;	.type	32;	.endef
 __MINGW_USYMBOL(log1pl):
+#if __SIZEOF_LONG_DOUBLE__ == __SIZEOF_DOUBLE__
+	jmp __MINGW_USYMBOL(log1p)
+#else
 #ifdef __x86_64__
 	fldln2
 	fldt	(%rdx)
@@ -99,4 +102,5 @@ __MINGW_USYMBOL(log1pl):
 	fstp	%st(1)
 	fstp	%st(1)
 	ret
+#endif
 #endif

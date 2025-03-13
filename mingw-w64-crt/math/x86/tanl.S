@@ -15,6 +15,9 @@
 .globl __MINGW_USYMBOL(tanl)
 	.def	__MINGW_USYMBOL(tanl);	.scl	2;	.type	32;	.endef
 __MINGW_USYMBOL(tanl):
+#if __SIZEOF_LONG_DOUBLE__ == __SIZEOF_DOUBLE__
+	jmp __MINGW_USYMBOL(tan)
+#else
 #ifdef __x86_64__
 	fldt	(%rdx)
 	fptan
@@ -59,4 +62,5 @@ __MINGW_USYMBOL(tanl):
 	fptan
 	fstp	%st(0)
 	ret
+#endif
 #endif
