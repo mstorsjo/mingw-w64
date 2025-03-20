@@ -527,6 +527,7 @@ src_msvcrt32=\
   misc/_free_locale.c \
   misc/_get_current_locale.c \
   misc/_initterm_e.c \
+  misc/_time64.c \
   misc/btowc.c \
   misc/imaxabs.c \
   misc/lc_locale_func.c \
@@ -801,6 +802,7 @@ src_pre_msvcr70=\
   misc/___mb_cur_max_func.c \
   misc/__pctype_func.c \
   misc/__pwctype_func.c \
+  misc/_time64.c \
   misc/lc_locale_func.c \
   misc/strtoimax.c \
   misc/strtoumax.c \
