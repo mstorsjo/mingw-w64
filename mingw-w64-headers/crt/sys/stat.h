@@ -140,7 +140,17 @@ struct stat {
   time_t st_ctime;
 };
 
-#ifndef __CRT__NO_INLINE
+
+#ifdef _CRTBLD
+/*
+ * When building mingw-w64 CRT files it is required that the fstat, stat and
+ * wstat functions are not declared with __MINGW_ASM_CALL redirection.
+ * Otherwise the mingw-w64 would provide broken fstat, stat and wstat symbols.
+ */
+int __cdecl fstat(int _Desc, struct stat *_Stat);
+int __cdecl stat(const char *_Filename, struct stat *_Stat);
+int __cdecl wstat(const wchar_t *_Filename, struct stat *_Stat);
+#else
 #if defined(_FILE_OFFSET_BITS) && (_FILE_OFFSET_BITS == 64)
 #ifdef _USE_32BIT_TIME_T
 int __cdecl fstat(int _Desc, struct stat *_Stat) __MINGW_ASM_CALL(_fstat32i64);
