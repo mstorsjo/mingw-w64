@@ -207,6 +207,8 @@ __tmainCRTStartup (void)
 	if (ret < 0)
 	  _amsg_exit (8); /* _RT_SPACEARG */
 
+	duplicate_ppstrings (argc, &argv);
+
 	_initterm (__xc_a, __xc_z);
 	__main (); /* C++ initialization. */
 
@@ -229,7 +231,6 @@ __tmainCRTStartup (void)
     
     _fpreset ();
 
-    duplicate_ppstrings (argc, &argv);
 #ifdef _UNICODE
     __winitenv = envp;
 #else
