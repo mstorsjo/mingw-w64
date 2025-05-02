@@ -7,6 +7,7 @@
 #include <sys/stat.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include <errno.h>
 
 char *__mingw_fix_stat_path(const char *_path);
 

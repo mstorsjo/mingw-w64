@@ -7,6 +7,7 @@
 #include <sys/stat.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include <errno.h>
 
 wchar_t *__mingw_fix_wstat_path(const wchar_t *_path);
 
