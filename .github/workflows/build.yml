@@ -214,16 +214,6 @@ jobs:
       - name: Checkout llvm-project
         run: |
           bash -c "CHECKOUT_ONLY=1 ./build-llvm.sh"
-      - name: Check out the mingw-w64 with patches
-        uses: actions/checkout@v4
-        with:
-          path: mingw-w64
-      - name: Patch llvm-project
-        run: |
-          cd llvm-project
-          git config --global user.name "LLVM MinGW"
-          git config --global user.email root@localhost
-          bash -c "git am -3 ../mingw-w64/patches/llvm-project/*.patch"
       - name: Build and test libcxx
         run: |
           cd llvm-project
