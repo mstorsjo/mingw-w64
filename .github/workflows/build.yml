@@ -212,6 +212,8 @@ jobs:
           repository: mstorsjo/llvm-mingw
           ref: 20250709
       - name: Checkout llvm-project
+        env:
+          LLVM_VERSION: 205d399f3026ad766a63fd20becc1476469cfa69
         run: |
           bash -c "CHECKOUT_ONLY=1 ./build-llvm.sh"
       - name: Build and test libcxx
