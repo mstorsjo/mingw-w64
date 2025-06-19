@@ -451,7 +451,7 @@ jobs:
           cd gmp-*
           mkdir build
           cd build
-          ../configure --prefix=$PREFIX --host=${{matrix.arch}}-w64-mingw32 --disable-shared
+          ../configure --prefix=$PREFIX --host=${{matrix.arch}}-w64-mingw32 --disable-shared || { cat config.log; exit 1; }
           make -j$(nproc)
           make install
           cd ../..
@@ -498,7 +498,7 @@ jobs:
           cd gcc-*
           mkdir build
           cd build
-          ../configure --prefix=$(pwd)/../../prefix --host=${{matrix.arch}}-w64-mingw32 --target=${{matrix.arch}}-w64-mingw32 --enable-languages=c,c++ --disable-multilib --enable-threads=posix --with-gmp=$(pwd)/../../prefix --with-native-system-header-dir=/opt/gcc-mingw/${{matrix.arch}}-w64-mingw32/include --disable-bootstrap
+          ../configure --prefix=$(pwd)/../../prefix --host=${{matrix.arch}}-w64-mingw32 --target=${{matrix.arch}}-w64-mingw32 --enable-languages=c,c++ --disable-multilib --enable-threads=posix --with-gmp=$(pwd)/../../prefix --with-native-system-header-dir=/opt/gcc-mingw/${{matrix.arch}}-w64-mingw32/include --disable-bootstrap || { cat config.log; exit 1; }
           make -j$(nproc) all-gcc
           make install-strip-gcc
       - name: Transplant the mingw-w64 installation from the cross compiler to the native one
