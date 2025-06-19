@@ -352,7 +352,7 @@ jobs:
           sudo apt-get update && sudo apt-get install libgmp-dev libmpfr-dev libmpc-dev autoconf automake
       - name: Build binutils
         run: |
-          curl -LO https://ftp.gnu.org/gnu/binutils/binutils-2.42.tar.xz
+          curl -LO https://ftp.gnu.org/gnu/binutils/binutils-2.44.tar.xz
           tar -Jxf binutils-*.tar.xz
           rm binutils-*.tar.xz
           cd binutils-*
@@ -364,7 +364,7 @@ jobs:
           echo $(pwd)/../../prefix/bin >> $GITHUB_PATH
       - name: Build the base GCC
         run: |
-          curl -LO https://ftp.gnu.org/gnu/gcc/gcc-14.1.0/gcc-14.1.0.tar.xz
+          curl -LO https://ftp.gnu.org/gnu/gcc/gcc-15.1.0/gcc-15.1.0.tar.xz
           tar -Jxf gcc-*.tar.xz
           rm gcc-*.tar.xz
           cd gcc-*
@@ -479,7 +479,7 @@ jobs:
 
       - name: Build binutils
         run: |
-          curl -LO https://ftp.gnu.org/gnu/binutils/binutils-2.42.tar.xz
+          curl -LO https://ftp.gnu.org/gnu/binutils/binutils-2.44.tar.xz
           tar -Jxf binutils-*.tar.xz
           rm binutils-*.tar.xz
           cd binutils-*
@@ -491,7 +491,7 @@ jobs:
           echo $(pwd)/../../prefix/bin >> $GITHUB_PATH
       - name: Build GCC
         run: |
-          curl -LO https://ftp.gnu.org/gnu/gcc/gcc-14.1.0/gcc-14.1.0.tar.xz
+          curl -LO https://ftp.gnu.org/gnu/gcc/gcc-15.1.0/gcc-15.1.0.tar.xz
           tar -Jxf gcc-*.tar.xz
           rm gcc-*.tar.xz
           cd gcc-*
