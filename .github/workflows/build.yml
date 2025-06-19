@@ -449,6 +449,9 @@ jobs:
           tar -Jxf gmp-*.tar.xz
           rm gmp-*.tar.xz
           cd gmp-*
+          curl -LO https://github.com/gmp-mirror/gmp/commit/14837bacbbd80804a11fee2016f660d132bf8aec.patch
+          patch -p1 < 14837bacbbd80804a11fee2016f660d132bf8aec.patch || true
+          autoreconf -fiv
           mkdir build
           cd build
           ../configure --prefix=$PREFIX --host=${{matrix.arch}}-w64-mingw32 --disable-shared || { cat config.log; exit 1; }
