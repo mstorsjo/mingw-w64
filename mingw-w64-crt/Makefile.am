@@ -4463,16 +4463,75 @@ testcase_progs = \
   testcases/t_wreaddir \
   testcases/t_fseeko64
 
-testcases_tstmaincpp_SOURCES = testcases/tstmaincpp.cpp
-testcases_t_trycatch_SOURCES = testcases/t_trycatch.cpp
-testcases_t_intrinc_CFLAGS = -std=c99
+testcaseunicode_progs = \
+  testcases/t_municode \
+  testcases/t_tmain \
+  testcases/t__wstat_all
 
 if ENABLE_TESTS_UNICODE
-  testcase_progs += testcases/t_municode testcases/t_tmain testcases/t__wstat_all
-  testcases_t_municode_CFLAGS = -municode
-  testcases_t_tmain_CFLAGS = -municode -D_UNICODE
-  testcases_t__wstat_all = -municode
+  testcase_progs += $(testcaseunicode_progs)
 endif
+
+# Overwrite all CRT specific build flags which are in AM_CFLAGS
+# Setting the target specific *_CFLAGS variable overrides AM_CFLAGS
+testcase_CFLAGS = @ADD_C_CXX_WARNING_FLAGS@ @ADD_C_ONLY_WARNING_FLAGS@
+testcaseunicode_CFLAGS = $(testcase_CFLAGS) -municode
+
+# Every non-unicode test has to set its CFLAGS to $(testcase_CFLAGS)
+testcases_tstmainc_CFLAGS = $(testcase_CFLAGS)
+testcases_tstmaincpp_CFLAGS = $(testcase_CFLAGS)
+testcases_tstmain_sys_xxx_CFLAGS = $(testcase_CFLAGS)
+testcases_t__fstat_all_CFLAGS = $(testcase_CFLAGS)
+testcases_t__stat_all_CFLAGS = $(testcase_CFLAGS)
+testcases_t_aligned_alloc_CFLAGS = $(testcase_CFLAGS)
+testcases_t_ansi_io_CFLAGS = $(testcase_CFLAGS)
+testcases_t_findfirst_CFLAGS = $(testcase_CFLAGS)
+testcases_t_float_CFLAGS = $(testcase_CFLAGS)
+testcases_t_fstat_CFLAGS = $(testcase_CFLAGS)
+testcases_t_intrinc_CFLAGS = $(testcase_CFLAGS)
+testcases_t_imagebase_CFLAGS = $(testcase_CFLAGS)
+testcases_t_lfs_CFLAGS = $(testcase_CFLAGS)
+testcases_t_matherr_CFLAGS = $(testcase_CFLAGS)
+testcases_t_nullptrexception_CFLAGS = $(testcase_CFLAGS)
+testcases_t_readdir_CFLAGS = $(testcase_CFLAGS)
+testcases_t_snprintf_CFLAGS = $(testcase_CFLAGS)
+testcases_t_snprintf0_CFLAGS = $(testcase_CFLAGS)
+testcases_t_snprintf1_CFLAGS = $(testcase_CFLAGS)
+testcases_t_swprintf_CFLAGS = $(testcase_CFLAGS)
+testcases_t_swprintf0_CFLAGS = $(testcase_CFLAGS)
+testcases_t_swprintf1_CFLAGS = $(testcase_CFLAGS)
+testcases_t_snwprintf_CFLAGS = $(testcase_CFLAGS)
+testcases_t_snwprintf0_CFLAGS = $(testcase_CFLAGS)
+testcases_t_snwprintf1_CFLAGS = $(testcase_CFLAGS)
+testcases_t_stprintf_a_CFLAGS = $(testcase_CFLAGS)
+testcases_t_stprintf_u_CFLAGS = $(testcase_CFLAGS)
+testcases_t_stprintf0_a_CFLAGS = $(testcase_CFLAGS)
+testcases_t_stprintf0_u_CFLAGS = $(testcase_CFLAGS)
+testcases_t_stprintf1_a_CFLAGS = $(testcase_CFLAGS)
+testcases_t_stprintf1_u_CFLAGS = $(testcase_CFLAGS)
+testcases_t_setjmp_CFLAGS = $(testcase_CFLAGS)
+testcases_t_sigv_CFLAGS = $(testcase_CFLAGS)
+testcases_t_speed_powl_CFLAGS = $(testcase_CFLAGS)
+testcases_t_stat_CFLAGS = $(testcase_CFLAGS)
+testcases_t_stdint_CFLAGS = $(testcase_CFLAGS)
+testcases_t_time_CFLAGS = $(testcase_CFLAGS)
+testcases_t_tls1_CFLAGS = $(testcase_CFLAGS)
+testcases_t_trycatch_CFLAGS = $(testcase_CFLAGS)
+testcases_t_stat_slash_CFLAGS = $(testcase_CFLAGS)
+testcases_t_vsscanf_CFLAGS = $(testcase_CFLAGS)
+testcases_t_wreaddir_CFLAGS = $(testcase_CFLAGS)
+testcases_t_fseeko64_CFLAGS = $(testcase_CFLAGS)
+
+# Every unicode test has to set its CFLAGS to $(testcaseunicode_CFLAGS)
+testcases_t_municode_CFLAGS = $(testcaseunicode_CFLAGS)
+testcases_t_tmain_CFLAGS = $(testcaseunicode_CFLAGS)
+testcases_t__wstat_all_CFLAGS = $(testcaseunicode_CFLAGS)
+
+testcases_tstmaincpp_SOURCES = testcases/tstmaincpp.cpp
+testcases_t_trycatch_SOURCES = testcases/t_trycatch.cpp
+
+testcases_t_intrinc_CFLAGS += -std=c99
+testcases_t_tmain_CFLAGS += -D_UNICODE
 
 # Do not specify TESTS = check_PROGRAMS, because some TESTS
 # may not be check_PROGRAMS.
