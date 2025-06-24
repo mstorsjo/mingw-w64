@@ -652,7 +652,7 @@ jobs:
           ../configure --disable-dependency-tracking --prefix=/gcc-mingw/${{matrix.arch}}-w64-mingw32 --with-default-msvcrt=${{matrix.crt}} --enable-silent-rules
           make -j$(nproc)
           make -j$(nproc) install
-          make -j$(nproc) check -k
+          make -j$(nproc) check -k || make check -k V=1
 
   test-gcc-msys:
     runs-on: windows-latest
