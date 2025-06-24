@@ -528,7 +528,6 @@ jobs:
           retention-days: 7
 
   test-gcc:
-    needs: [gcc-cross]
     runs-on: windows-latest
     strategy:
       fail-fast: false
@@ -540,11 +539,9 @@ jobs:
           - i686
           - x86_64
     steps:
-      - uses: actions/download-artifact@v4
-        with:
-          name: windows-${{matrix.crt}}-${{matrix.arch}}-gcc-toolchain
       - name: Unpack toolchain
         run: |
+          curl -LO https://martin.st/temp/gcc-mingw/gcc-mingw-${{matrix.crt}}-${{matrix.arch}}.zip
           Expand-Archive gcc-mingw-*.zip -DestinationPath .
           del gcc-mingw-*.zip
           mv gcc-mingw-* c:\gcc-mingw
@@ -656,3 +653,48 @@ jobs:
           make -j$(nproc)
           make -j$(nproc) install
           make -j$(nproc) check -k
+
+  test-gcc-msys:
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: msys2 {0}
+    strategy:
+      fail-fast: false
+      matrix:
+        crt:
+          - ucrt
+          - msvcrt
+        arch:
+          - i686
+          - x86_64
+    steps:
+      - uses: msys2/setup-msys2@v2
+        with:
+          msystem: mingw64
+          install: >-
+            unzip
+            make
+      - name: Unpack toolchain
+        run: |
+          curl -LO https://martin.st/temp/gcc-mingw/gcc-mingw-${{matrix.crt}}-${{matrix.arch}}.zip
+          unzip -q gcc-mingw-*.zip
+          rm gcc-mingw-*.zip
+          mv gcc-mingw-* /gcc-mingw
+          echo /gcc-mingw/bin >> $GITHUB_PATH
+      - name: Check out llvm-mingw tests
+        uses: actions/checkout@v4
+        with:
+          repository: mstorsjo/llvm-mingw
+          ref: 20250430
+      - name: Run tests
+        run: |
+          export PATH=/gcc-mingw/bin:$PATH
+          gcc test/hello.c -o hello.exe
+          ./hello.exe
+          gcc test/crt-test.c -o crt-test.exe
+          ./crt-test.exe
+          g++ test/hello-cpp.cpp -o hello-cpp.exe
+          ./hello-cpp.exe
+          g++ test/hello-exception.cpp -o hello-exception.exe
+          ./hello-exception.exe
