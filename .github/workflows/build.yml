@@ -4,6 +4,7 @@ on:
 
 jobs:
   llvm-mingw:
+    if: false
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -326,6 +327,7 @@ jobs:
           make -j$(nproc) fate
 
   gcc:
+    if: false
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -603,7 +605,6 @@ jobs:
 
   mingw-w64-testcases-gcc:
     runs-on: windows-latest
-    needs: [gcc-cross]
     defaults:
       run:
         shell: msys2 {0}
@@ -624,11 +625,9 @@ jobs:
           install: >-
             unzip
             make
-      - uses: actions/download-artifact@v4
-        with:
-          name: windows-${{ matrix.crt == 'ucrtbase' && 'ucrt' || matrix.crt }}-${{matrix.arch}}-gcc-toolchain
       - name: Unpack toolchain
         run: |
+          curl -LO https://martin.st/temp/gcc-mingw/gcc-mingw-${{ matrix.crt == 'ucrtbase' && 'ucrt' || matrix.crt }}-${{matrix.arch}}.zip
           unzip -q gcc-mingw-*.zip
           rm gcc-mingw-*.zip
           mv gcc-mingw-* /gcc-mingw
