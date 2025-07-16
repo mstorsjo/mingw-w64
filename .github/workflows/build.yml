@@ -398,12 +398,12 @@ jobs:
           make install-strip
       - name: Package the toolchain
         run: |
-          NAME=gcc-mingw-${{matrix.crt}}-${{matrix.arch}}
+          NAME=gcc-mingw-${{matrix.crt}}-${{matrix.arch}}-host-$(uname -m)
           mv prefix $NAME
           tar -Jcf $NAME.tar.xz --format=ustar --numeric-owner --owner=0 --group=0 --sort=name $NAME
       - uses: actions/upload-artifact@v4
         with:
-          name: linux-${{matrix.crt}}-${{matrix.arch}}-gcc-toolchain
+          name: linux-${{matrix.crt}}-${{matrix.arch}}-gcc-toolchain-host-x86_64
           path: |
             gcc-mingw-*.tar.xz
           retention-days: 7
@@ -423,7 +423,7 @@ jobs:
     steps:
       - uses: actions/download-artifact@v4
         with:
-          name: linux-${{matrix.crt}}-${{matrix.arch}}-gcc-toolchain
+          name: linux-${{matrix.crt}}-${{matrix.arch}}-gcc-toolchain-host-x86_64
       - name: Unpack cross toolchain
         run: |
           tar -Jxf gcc-mingw-*.tar.xz
