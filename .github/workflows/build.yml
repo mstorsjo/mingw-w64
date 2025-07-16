@@ -4,7 +4,7 @@ on:
 
 jobs:
   llvm-mingw:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04-arm
     strategy:
       fail-fast: false
       matrix:
@@ -36,12 +36,8 @@ jobs:
       - name: Rebuild the runtimes
         run: |
           sudo apt-get update && sudo apt-get install ninja-build
-          DISTRO=ubuntu-22.04-x86_64
-          src_crt=${{matrix.crt}}
-          if [ "$src_crt" = "ucrtbase" ]; then
-              src_crt=ucrt
-          fi
-          curl -LO https://github.com/mstorsjo/llvm-mingw/releases/download/20250709/llvm-mingw-20250709-$src_crt-$DISTRO.tar.xz
+          DISTRO=ubuntu-22.04-aarch64
+          curl -LO https://github.com/mstorsjo/llvm-mingw/releases/download/20250709/llvm-mingw-20250709-ucrt-$DISTRO.tar.xz
           tar -Jxf llvm-mingw-*.tar.xz
           rm llvm-mingw-*.tar.xz
           mkdir install
@@ -58,7 +54,7 @@ jobs:
           mv $NAME llvm-mingw
       - uses: actions/upload-artifact@v4
         with:
-          name: linux-${{matrix.crt}}-x86_64-toolchain
+          name: linux-${{matrix.crt}}-aarch64-toolchain
           path: |
             llvm-mingw-*.tar.xz
           retention-days: 7
@@ -235,7 +231,7 @@ jobs:
 
   linux-test-cross-build-ffmpeg:
     needs: [llvm-mingw]
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04-arm
     strategy:
       fail-fast: false
       matrix:
@@ -247,7 +243,7 @@ jobs:
     steps:
       - uses: actions/download-artifact@v4
         with:
-          name: linux-ucrt-x86_64-toolchain
+          name: linux-ucrt-aarch64-toolchain
       - name: Unpack cross toolchain
         run: |
           tar -Jxf llvm-mingw-*.tar.xz
@@ -326,7 +322,7 @@ jobs:
           make -j$(nproc) fate
 
   gcc:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04-arm
     strategy:
       fail-fast: false
       matrix:
@@ -403,13 +399,13 @@ jobs:
           tar -Jcf $NAME.tar.xz --format=ustar --numeric-owner --owner=0 --group=0 --sort=name $NAME
       - uses: actions/upload-artifact@v4
         with:
-          name: linux-${{matrix.crt}}-${{matrix.arch}}-gcc-toolchain-host-x86_64
+          name: linux-${{matrix.crt}}-${{matrix.arch}}-gcc-toolchain-host-aarch64
           path: |
             gcc-mingw-*.tar.xz
           retention-days: 7
 
   gcc-cross:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04-arm
     needs: [gcc]
     strategy:
       fail-fast: false
@@ -423,7 +419,7 @@ jobs:
     steps:
       - uses: actions/download-artifact@v4
         with:
-          name: linux-${{matrix.crt}}-${{matrix.arch}}-gcc-toolchain-host-x86_64
+          name: linux-${{matrix.crt}}-${{matrix.arch}}-gcc-toolchain-host-aarch64
       - name: Unpack cross toolchain
         run: |
           tar -Jxf gcc-mingw-*.tar.xz
