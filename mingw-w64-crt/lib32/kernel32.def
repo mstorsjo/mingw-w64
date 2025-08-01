@@ -934,42 +934,42 @@ GetErrorMode@0
 ; This is list of symbols available in all Win9x versions, but not available in Win32s and WinNT
 ; AllocLSCallback@8
 ; AllocSLCallback@8
-; Callback12@12
-; Callback16@16
-; Callback20@20
-; Callback24@24
-; Callback28@28
-; Callback32@32
-; Callback36@36
-; Callback40@40
-; Callback44@44
-; Callback48@48
-; Callback4@4
-; Callback52@52
-; Callback56@56
-; Callback60@60
-; Callback64@64
-; Callback8@8
+Callback12@12
+Callback16@16
+Callback20@20
+Callback24@24
+Callback28@28
+Callback32@32
+Callback36@36
+Callback40@40
+Callback44@44
+Callback48@48
+Callback4@4
+Callback52@52
+Callback56@56
+Callback60@60
+Callback64@64
+Callback8@8
 ; CloseSystemHandle@4
 ConvertToGlobalHandle@4
 ; CreateKernelThread@24
-; FT_Exit0 ; no stdcall decoration in msvc thunk32.lib
-; FT_Exit12 ; no stdcall decoration in msvc thunk32.lib
-; FT_Exit16 ; no stdcall decoration in msvc thunk32.lib
-; FT_Exit20 ; no stdcall decoration in msvc thunk32.lib
-; FT_Exit24 ; no stdcall decoration in msvc thunk32.lib
-; FT_Exit28 ; no stdcall decoration in msvc thunk32.lib
-; FT_Exit32 ; no stdcall decoration in msvc thunk32.lib
-; FT_Exit36 ; no stdcall decoration in msvc thunk32.lib
-; FT_Exit4 ; no stdcall decoration in msvc thunk32.lib
-; FT_Exit40 ; no stdcall decoration in msvc thunk32.lib
-; FT_Exit44 ; no stdcall decoration in msvc thunk32.lib
-; FT_Exit48 ; no stdcall decoration in msvc thunk32.lib
-; FT_Exit52 ; no stdcall decoration in msvc thunk32.lib
-; FT_Exit56 ; no stdcall decoration in msvc thunk32.lib
-; FT_Exit8 ; no stdcall decoration in msvc thunk32.lib
-; FT_Prolog ; no stdcall decoration in msvc thunk32.lib
-; FT_Thunk ; no stdcall decoration in msvc thunk32.lib
+FT_Exit0 ; no stdcall decoration in msvc thunk32.lib
+FT_Exit12 ; no stdcall decoration in msvc thunk32.lib
+FT_Exit16 ; no stdcall decoration in msvc thunk32.lib
+FT_Exit20 ; no stdcall decoration in msvc thunk32.lib
+FT_Exit24 ; no stdcall decoration in msvc thunk32.lib
+FT_Exit28 ; no stdcall decoration in msvc thunk32.lib
+FT_Exit32 ; no stdcall decoration in msvc thunk32.lib
+FT_Exit36 ; no stdcall decoration in msvc thunk32.lib
+FT_Exit4 ; no stdcall decoration in msvc thunk32.lib
+FT_Exit40 ; no stdcall decoration in msvc thunk32.lib
+FT_Exit44 ; no stdcall decoration in msvc thunk32.lib
+FT_Exit48 ; no stdcall decoration in msvc thunk32.lib
+FT_Exit52 ; no stdcall decoration in msvc thunk32.lib
+FT_Exit56 ; no stdcall decoration in msvc thunk32.lib
+FT_Exit8 ; no stdcall decoration in msvc thunk32.lib
+FT_Prolog ; no stdcall decoration in msvc thunk32.lib
+FT_Thunk ; no stdcall decoration in msvc thunk32.lib
 ; FreeLSCallback@4
 ; FreeSLCallback@4
 ; GetDaylightFlag@0
@@ -983,51 +983,51 @@ GetProductName@8
 ; InvalidateNLSCache@0
 ; IsLSCallback@4
 ; IsSLCallback@4
-; K32Thk1632Epilog@0
-; K32Thk1632Prolog@0
+K32Thk1632Epilog@0
+K32Thk1632Prolog@0
 ; MakeCriticalSectionGlobal@4
-; MapHInstLS ; no stdcall decoration in msvc thunk32.lib
-; MapHInstLS_PN ; no stdcall decoration in msvc thunk32.lib
-; MapHInstSL ; no stdcall decoration in msvc thunk32.lib
-; MapHInstSL_PN ; no stdcall decoration in msvc thunk32.lib
+MapHInstLS ; no stdcall decoration in msvc thunk32.lib
+MapHInstLS_PN ; no stdcall decoration in msvc thunk32.lib
+MapHInstSL ; no stdcall decoration in msvc thunk32.lib
+MapHInstSL_PN ; no stdcall decoration in msvc thunk32.lib
 ; MapHModuleLS@4
 ; MapHModuleSL@4
-; MapLS@4
-; MapSL@4
-; MapSLFix@4
+MapLS@4
+MapSL@4
+MapSLFix@4
 ; NotifyNLSUserCache@12
 ; OpenVxDHandle@4
-; QT_Thunk ; no stdcall decoration in msvc thunk32.lib
+QT_Thunk ; no stdcall decoration in msvc thunk32.lib
 ; QueryNumberOfEventLogRecords@8
 ; QueryOldestEventLogRecord@8
 ; RegisterServiceProcess@8
 ; ReinitializeCriticalSection@4
-; SMapLS ; no stdcall decoration in msvc thunk32.lib
-; SMapLS_IP_EBP_12 ; no stdcall decoration in msvc thunk32.lib
-; SMapLS_IP_EBP_16 ; no stdcall decoration in msvc thunk32.lib
-; SMapLS_IP_EBP_20 ; no stdcall decoration in msvc thunk32.lib
-; SMapLS_IP_EBP_24 ; no stdcall decoration in msvc thunk32.lib
-; SMapLS_IP_EBP_28 ; no stdcall decoration in msvc thunk32.lib
-; SMapLS_IP_EBP_32 ; no stdcall decoration in msvc thunk32.lib
-; SMapLS_IP_EBP_36 ; no stdcall decoration in msvc thunk32.lib
-; SMapLS_IP_EBP_40 ; no stdcall decoration in msvc thunk32.lib
-; SMapLS_IP_EBP_8 ; no stdcall decoration in msvc thunk32.lib
-; SUnMapLS ; no stdcall decoration in msvc thunk32.lib
-; SUnMapLS_IP_EBP_12 ; no stdcall decoration in msvc thunk32.lib
-; SUnMapLS_IP_EBP_16 ; no stdcall decoration in msvc thunk32.lib
-; SUnMapLS_IP_EBP_20 ; no stdcall decoration in msvc thunk32.lib
-; SUnMapLS_IP_EBP_24 ; no stdcall decoration in msvc thunk32.lib
-; SUnMapLS_IP_EBP_28 ; no stdcall decoration in msvc thunk32.lib
-; SUnMapLS_IP_EBP_32 ; no stdcall decoration in msvc thunk32.lib
-; SUnMapLS_IP_EBP_36 ; no stdcall decoration in msvc thunk32.lib
-; SUnMapLS_IP_EBP_40 ; no stdcall decoration in msvc thunk32.lib
-; SUnMapLS_IP_EBP_8 ; no stdcall decoration in msvc thunk32.lib
+SMapLS ; no stdcall decoration in msvc thunk32.lib
+SMapLS_IP_EBP_12 ; no stdcall decoration in msvc thunk32.lib
+SMapLS_IP_EBP_16 ; no stdcall decoration in msvc thunk32.lib
+SMapLS_IP_EBP_20 ; no stdcall decoration in msvc thunk32.lib
+SMapLS_IP_EBP_24 ; no stdcall decoration in msvc thunk32.lib
+SMapLS_IP_EBP_28 ; no stdcall decoration in msvc thunk32.lib
+SMapLS_IP_EBP_32 ; no stdcall decoration in msvc thunk32.lib
+SMapLS_IP_EBP_36 ; no stdcall decoration in msvc thunk32.lib
+SMapLS_IP_EBP_40 ; no stdcall decoration in msvc thunk32.lib
+SMapLS_IP_EBP_8 ; no stdcall decoration in msvc thunk32.lib
+SUnMapLS ; no stdcall decoration in msvc thunk32.lib
+SUnMapLS_IP_EBP_12 ; no stdcall decoration in msvc thunk32.lib
+SUnMapLS_IP_EBP_16 ; no stdcall decoration in msvc thunk32.lib
+SUnMapLS_IP_EBP_20 ; no stdcall decoration in msvc thunk32.lib
+SUnMapLS_IP_EBP_24 ; no stdcall decoration in msvc thunk32.lib
+SUnMapLS_IP_EBP_28 ; no stdcall decoration in msvc thunk32.lib
+SUnMapLS_IP_EBP_32 ; no stdcall decoration in msvc thunk32.lib
+SUnMapLS_IP_EBP_36 ; no stdcall decoration in msvc thunk32.lib
+SUnMapLS_IP_EBP_40 ; no stdcall decoration in msvc thunk32.lib
+SUnMapLS_IP_EBP_8 ; no stdcall decoration in msvc thunk32.lib
 ; SetDaylightFlag@4
 ; ThunkConnect32@24
 ; TlsAllocInternal@0
 ; TlsFreeInternal@4
-; UnMapLS@4
-; UnMapSLFixArray@8
+UnMapLS@4
+UnMapSLFixArray@8
 ; UninitializeCriticalSection@4
 ; _DebugOut
 ; _DebugPrintf
