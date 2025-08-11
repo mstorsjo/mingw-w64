@@ -21,9 +21,6 @@ static void set_conversion_state (mbstate_t *state, int bytes) {
 }
 
 int main (void) {
-#ifdef _UCRT
-  return 77;
-#endif
   mbstate_t state = {0};
 
   /**
@@ -200,6 +197,59 @@ int main (void) {
 
     if (wc == WEOF) {
       break;
+    }
+  }
+#endif
+#ifdef _UCRT
+  /**
+   * Test UTF-8
+   */
+  if (setlocale (LC_ALL, "en_US.UTF-8") != NULL) {
+    assert (MB_CUR_MAX == 4);
+
+    /**
+     * All values in range [0,127] are valid characters
+     */
+    for (wchar_t wc = 0; wc < 0x80; ++wc) {
+      char c = EOF;
+
+      assert (wcrtomb (&c, wc, &state) == 1);
+      assert ((unsigned char) c == wc);
+      assert (errno == 0);
+      assert (mbsinit (&state));
+    }
+
+    /**
+     * Try convert multibyte characters
+     */
+    for (size_t i = 0; i < _countof (DBCS); ++i) {
+      char buffer[MB_LEN_MAX] = {0};
+
+      assert (wcrtomb (buffer, DBCS[i], &state) == 3);
+      assert (buffer[0] != 0 && buffer[1] != 0 && buffer[2] != 0);
+      assert (errno == 0);
+      assert (mbsinit (&state));
+    }
+
+    /**
+     * Try to convert low and high surrogates
+     */
+    for (wchar_t wc = 0;; ++wc) {
+      if (IS_LOW_SURROGATE (wc) || IS_HIGH_SURROGATE (wc)) {
+        char buffer[MB_LEN_MAX] = {EOF};
+
+        assert (wcrtomb (buffer, wc, &state) == (size_t) -1);
+        assert (buffer[0] == EOF);
+        assert (errno = EILSEQ);
+        assert (mbsinit (&state));
+
+        // reset errno
+        _set_errno (0);
+      }
+
+      if (wc == WEOF) {
+        break;
+      }
     }
   }
 #endif

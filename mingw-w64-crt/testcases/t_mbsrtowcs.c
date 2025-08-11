@@ -20,10 +20,19 @@ unsigned char MixedText[] = {0x93, 0xFA, 'n', 'i', 0x96, 0x7B, 'h', 'o', 'n', 0x
 /* DBCS text with truncated multibyte character */
 unsigned char BadText[] = {0x93, 0xFA, 0x96, 0x7B, 0x8C, 0x0};
 
-int main (void) {
 #ifdef _UCRT
-  return 77;
+/**
+ * UTF-8 Text
+ */
+char UTF8[] = "日本語テクスト";
+
+/**
+ * UTF-8 Text which will produce UTF-16 surrogate pairs in output
+ */
+char UTF8SurrogatePair[] = "🧡🩷";
 #endif
+
+int main (void) {
   mbstate_t state = {0};
   wchar_t   buffer[BUFSIZ];
 
@@ -375,6 +384,169 @@ int main (void) {
 
   // reset errno
   _set_errno (0);
+#endif
+#ifdef _UCRT
+  if (setlocale (LC_ALL, "en_US.UTF-8") != NULL) {
+    assert (MB_CUR_MAX == 4);
+
+    /**
+     * Test ASCII input
+     */
+    original_text = AsciiText;
+    text_length = sizeof AsciiText - 1;
+
+    /**
+     * Convert AsciiString
+     *
+     * - return value must be `text_length`
+     * - value of `text` must be NULL
+     * - `state` must be in the initial state
+     * - value of `errno` must not change
+     * - converted string must be terminated with '\0'
+     */
+    wmemset (buffer, WEOF, BUFSIZ);
+    text = original_text;
+
+    assert (mbsrtowcs (buffer, &text, BUFSIZ, &state) == text_length);
+    assert (text == NULL);
+    assert (mbsinit (&state));
+    assert (errno == 0);
+    assert (buffer[text_length] == L'\0');
+
+    /**
+     * Test UTF-8 input
+     */
+    original_text = UTF8;
+
+    /**
+     * Get length of converted UTF8
+     *
+     * - return value must be 7
+     * - value of `text` must not change
+     * - `state` must be in the initial state
+     * - value of `errno` must not change
+     */
+    text = original_text;
+
+    assert (mbsrtowcs (NULL, &text, 0, &state) == 7);
+    assert (text == original_text);
+    assert (mbsinit (&state));
+    assert (errno == 0);
+
+    /**
+     * Convert UTF8
+     *
+     * - return value must be 7
+     * - value of `text` must not change
+     * - `state` must be in the initial state
+     * - value of `errno` must not change
+     * - converted string must be terminated with '\0'
+     */
+    wmemset (buffer, WEOF, BUFSIZ);
+    text = original_text;
+
+    assert (mbsrtowcs (buffer, &text, BUFSIZ, &state) == 7);
+    assert (text == NULL);
+    assert (mbsinit (&state));
+    assert (errno == 0);
+    assert (buffer[7] == L'\0');
+
+    /**
+     * Convert 3 multibyte characters in UTF8
+     *
+     * - return value must be 3
+     * - value of `text` must be `original_text + 9`
+     * - `state` must be in the initial state
+     * - value of `errno` must not change
+     * - converted string must not be terminated with '\0'
+     */
+    wmemset (buffer, WEOF, BUFSIZ);
+    text = original_text;
+
+    assert (mbsrtowcs (buffer, &text, 3, &state) == 3);
+    assert (text == original_text + 9);
+    assert (mbsinit (&state));
+    assert (errno == 0);
+    assert (buffer[2] != WEOF && buffer[2] != L'\0' && buffer[3] == WEOF);
+
+    /**
+     * Try convert invalid UTF-8 string
+     *
+     * - return value must be (size_t)-1
+     * - value of `text` must be `original_text + 3`
+     * - `state` must be in the initial state
+     * - value of `errno` must be EILSEQ
+     * - converted string must not be terminated with '\0'
+     */
+    UTF8[4] = '\0';
+    wmemset (buffer, WEOF, BUFSIZ);
+    text = original_text;
+
+    assert (mbsrtowcs (buffer, &text, BUFSIZ, &state) == (size_t) -1);
+    assert (text == original_text + 3);
+    assert (mbsinit (&state));
+    assert (errno == EILSEQ);
+    assert (buffer[0] != WEOF && buffer[0] != L'\0' && buffer[1] == WEOF);
+
+    // reset errno
+    _set_errno (0);
+
+    /**
+     * Test UTF-8 input which produces surrogate pairs in output
+     */
+    original_text = UTF8SurrogatePair;
+
+    /**
+     * Get length of converted UTF8SurrogatePair
+     *
+     * - return value must be 4
+     * - value of `text` must not change
+     * - `state` must be in the initial state
+     * - value of `errno` must not change
+     */
+    text = original_text;
+
+    assert (mbsrtowcs (NULL, &text, 0, &state) == 4);
+    assert (text == original_text);
+    assert (mbsinit (&state));
+    assert (errno == 0);
+
+    /**
+     * Convert UTF8SurrogatePair
+     *
+     * - return value must be 4
+     * - value of `text` must not change
+     * - `state` must be in the initial state
+     * - value of `errno` must not change
+     * - converted string must be terminated with '\0'
+     */
+    wmemset (buffer, WEOF, BUFSIZ);
+    text = original_text;
+
+    assert (mbsrtowcs (buffer, &text, BUFSIZ, &state) == 4);
+    assert (text == NULL);
+    assert (mbsinit (&state));
+    assert (errno == 0);
+    assert (buffer[4] == L'\0');
+
+    /**
+     * Convert 1 multibyte character in UTF8SurrogatePair
+     *
+     * - return value must be 2
+     * - value of `text` must be `original_text + 4`
+     * - `state` must be in the initial state
+     * - value of `errno` must not change
+     * - converted string must not be terminated with '\0'
+     */
+    wmemset (buffer, WEOF, BUFSIZ);
+    text = original_text;
+
+    assert (mbsrtowcs (buffer, &text, 3, &state) == 2);
+    assert (text == original_text + 4);
+    assert (mbsinit (&state));
+    assert (errno == 0);
+    assert (buffer[2] == WEOF);
+  }
 #endif
 
   return 0;

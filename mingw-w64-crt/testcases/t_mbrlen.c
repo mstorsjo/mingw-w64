@@ -22,10 +22,19 @@ char NonAscii[] = {(char) 0x80};
 char Multibyte[] = {(char) 0x81, (char) 0x81};
 char InvalidMultibyte[] = {(char) 0x81, 0};
 
-int main (void) {
 #ifdef _UCRT
-  return 77;
+/**
+ * Valid UTF-8 character which can be represented by a single wchar_t.
+ */
+char UTF8[] = "語";
+
+/**
+ * Valid UTF-8 character which cannot be represented by a single wchar_t.
+ */
+char UTF8SurrogatePair[] = "🧡";
 #endif
+
+int main (void) {
   mbstate_t state = {0};
 
   /**
@@ -145,6 +154,59 @@ int main (void) {
 
   // reset errno
   _set_errno (0);
+#endif
+#ifdef _UCRT
+  /**
+   * Test UTF-8
+   */
+  if (setlocale (LC_ALL, "en_US.UTF-8") != NULL) {
+    assert (MB_CUR_MAX == 4);
+
+    /**
+     * Make sure ASCII characters are handled correctly
+     */
+    for (char c = 0;; ++c) {
+      assert (mbrlen (&c, 1, &state) == !!c);
+      assert (mbsinit (&state));
+      assert (errno == 0);
+
+      if (c == 0x7F) {
+        break;
+      }
+    }
+
+    /**
+     * Get length of multibyte character
+     */
+
+    assert (mbrlen ((char *) UTF8, MB_CUR_MAX, &state) == 3);
+    assert (mbsinit (&state));
+    assert (errno == 0);
+
+    /**
+     * Get length of incomplete multibyte character
+     */
+
+    assert (mbrlen ((char *) UTF8, 1, &state) == (size_t) -2);
+    assert (!mbsinit (&state));
+    assert (errno == 0);
+
+    assert (mbrlen ((char *) UTF8 + 1, 1, &state) == (size_t) -2);
+    assert (!mbsinit (&state));
+    assert (errno == 0);
+
+    assert (mbrlen ((char *) UTF8 + 2, 1, &state) == 1);
+    assert (mbsinit (&state));
+    assert (errno == 0);
+
+    /**
+     * Get length of multibyte character which cannot fit into single wchar_t
+     */
+
+    assert (mbrlen ((char *) UTF8SurrogatePair, MB_CUR_MAX, &state) == 4);
+    assert (mbsinit (&state));
+    assert (errno == 0);
+  }
 #endif
 
   return 0;
