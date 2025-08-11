@@ -3,15 +3,23 @@
  * This file is part of the mingw-w64 runtime package.
  * No warranty is given; refer to the file DISCLAIMER.PD within this package.
  */
-#ifndef WIN32_LEAN_AND_MEAN
-#define WIN32_LEAN_AND_MEAN
-#endif
-#include "mb_wc_common.h"
-#include <wchar.h>
-#include <stdlib.h>
+
 #include <errno.h>
-#include <limits.h>
+#include <stdlib.h>
+#include <wchar.h>
+
+#define WIN32_LEAN_AND_MEAN
 #include <windows.h>
+
+#include "mb_wc_common.h"
+
+#ifdef _UCRT
+#define wcrtomb   __mingw_wcrtomb
+#define wcsrtombs __mingw_wcsrtombs
+
+static size_t wcrtomb (char *__restrict__, wchar_t, mbstate_t *__restrict__);
+static size_t wcsrtombs (char *__restrict__, const wchar_t **__restrict__, size_t, mbstate_t *__restrict__);
+#endif
 
 static size_t wcrtomb_cp (
   char *__restrict__ mbc,
@@ -23,13 +31,13 @@ static size_t wcrtomb_cp (
   /* Set `state` to initial state */
   if (mbc == NULL) {
     if (state != NULL) {
-      *state = 0;
+      conversion_state_init (state);
     }
     return 1;
   }
 
   /* Detect invalid conversion state */
-  if (state != NULL && *state) {
+  if (!mbsinit (state)) {
     _set_errno (EINVAL);
     return (size_t) -1;
   }
@@ -73,6 +81,9 @@ eilseq:
   return (size_t) -1;
 }
 
+#ifdef _UCRT
+static
+#endif
 size_t wcrtomb (
   char *__restrict__ mbc,
   wchar_t wc,
@@ -86,6 +97,9 @@ size_t wcrtomb (
   return wcrtomb_cp (mbc, wc, state, cp, mb_cur_max);
 }
 
+#ifdef _UCRT
+static
+#endif
 size_t wcsrtombs (
   char *__restrict__ mbs,
   const wchar_t **__restrict__ wcs,
@@ -154,3 +168,8 @@ size_t wcsrtombs (
 
   return mbcConverted;
 }
+
+#ifdef _UCRT
+#undef wcrtomb
+#undef wcsrtombs
+#endif

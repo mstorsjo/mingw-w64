@@ -424,6 +424,8 @@ src_ucrtbase=\
   misc/output_format.c \
   misc/ucrt-access.c \
   misc/ucrt_btowc.c \
+  misc/ucrt_mbrtowc.c \
+  misc/ucrt_wcrtomb.c \
   misc/ucrt_wctob.c \
   stdio/ucrt___local_stdio_printf_options.c \
   stdio/ucrt___local_stdio_scanf_options.c \

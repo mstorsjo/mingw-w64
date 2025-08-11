@@ -3,14 +3,25 @@
  * This file is part of the mingw-w64 runtime package.
  * No warranty is given; refer to the file DISCLAIMER.PD within this package.
  */
-#ifndef WIN32_LEAN_AND_MEAN
-#define WIN32_LEAN_AND_MEAN
-#endif
-#include "mb_wc_common.h"
-#include <wchar.h>
-#include <stdlib.h>
+
 #include <errno.h>
+#include <stdlib.h>
+#include <wchar.h>
+
+#define WIN32_LEAN_AND_MEAN
 #include <windows.h>
+
+#include "mb_wc_common.h"
+
+#ifdef _UCRT
+#define mbrlen    __mingw_mbrlen
+#define mbrtowc   __mingw_mbrtowc
+#define mbsrtowcs __mingw_mbsrtowcs
+
+static size_t mbrlen (const char *__restrict__, size_t, mbstate_t *__restrict__);
+static size_t mbrtowc (wchar_t *__restrict__, const char *__restrict__, size_t, mbstate_t *__restrict__);
+static size_t mbsrtowcs (wchar_t *, const char **__restrict__, size_t, mbstate_t *__restrict__);
+#endif
 
 /**
  * Private `mbstate_t` to use if caller did not supply one.
@@ -29,12 +40,12 @@ static size_t mbrtowc_cp (
 ) {
   /* Set `state` to initial state */
   if (mbs == NULL) {
-    *state = 0;
+    conversion_state_init (state);
     return 0;
   }
 
   /* Detect invalid conversion state */
-  if ((unsigned) *state > 0xFF) {
+  if (!conversion_state_is_valid (state)) {
     goto einval;
   }
 
@@ -44,10 +55,8 @@ static size_t mbrtowc_cp (
   }
 
   /* Treat `state` as an array of bytes */
-  union {
-    mbstate_t state;
-    char bytes[4];
-  } conversion_state = {.state = *state};
+  __mingw_conversion_state conversion_state = {0};
+  conversion_state_get_bytes (&conversion_state, state);
 
   /* For SBCS code pages `state` must always be in initial state */
   if (mb_cur_max == 1 && conversion_state.bytes[0]) {
@@ -73,7 +82,7 @@ static size_t mbrtowc_cp (
 
     /* We need to examine mbs[1] */
     if (count < 2) {
-      *state = conversion_state.state;
+      conversion_state_set_bytes (state, &conversion_state);
       return (size_t) -2;
     }
 
@@ -87,7 +96,7 @@ static size_t mbrtowc_cp (
   if (conversion_state.bytes[0] == '\0') {
     if (wc != NULL) {
       *wc = L'\0';
-      *state = 0;
+      conversion_state_init (state);
     }
     return 0;
   }
@@ -110,7 +119,7 @@ static size_t mbrtowc_cp (
 
   if (wc != NULL) {
     *wc = wcOut;
-    *state = 0;
+    conversion_state_init (state);
   }
 
   return length;
@@ -124,6 +133,9 @@ einval:
   return (size_t) -1;
 }
 
+#ifdef _UCRT
+static
+#endif
 size_t mbrlen (
   const char *__restrict__ mbs,
   size_t count,
@@ -137,6 +149,9 @@ size_t mbrlen (
   return mbrtowc (&wc, mbs, count, state);
 }
 
+#ifdef _UCRT
+static
+#endif
 size_t mbrtowc (
   wchar_t *__restrict__ wc,
   const char *__restrict__ mbs,
@@ -156,6 +171,9 @@ size_t mbrtowc (
   return mbrtowc_cp (wc, mbs, count, state, cp, mb_cur_max);
 }
 
+#ifdef _UCRT
+static
+#endif
 size_t mbsrtowcs (
   wchar_t *wcs,
   const char **__restrict__ mbs,
@@ -236,3 +254,9 @@ size_t mbsrtowcs (
 
   return wcConverted;
 }
+
+#ifdef _UCRT
+#undef mbrlen
+#undef mbrtowc
+#undef mbsrtowcs
+#endif

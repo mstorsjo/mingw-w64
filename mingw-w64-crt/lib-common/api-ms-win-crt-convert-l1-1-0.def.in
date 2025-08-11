@@ -98,8 +98,8 @@ c16rtomb
 c32rtomb
 mbrtoc16
 mbrtoc32
-mbrtowc
-mbsrtowcs
+; mbrtowc ; use replacement
+; mbsrtowcs ; use replacement
 mbsrtowcs_s
 mbstowcs
 mbstowcs_s
@@ -113,9 +113,9 @@ strtoll
 strtoul
 strtoull
 strtoumax
-wcrtomb
+; wcrtomb ; use replacement
 wcrtomb_s
-wcsrtombs
+; wcsrtombs ; use replacement
 wcsrtombs_s
 wcstod
 wcstof

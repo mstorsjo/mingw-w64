@@ -158,7 +158,7 @@ iswupper
 iswxdigit
 isxdigit
 mblen
-mbrlen
+; mbrlen ; use replacement
 memcpy_s
 memmove_s
 memset

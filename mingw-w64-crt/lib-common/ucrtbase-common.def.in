@@ -2473,11 +2473,11 @@ lroundf
 F_LD64(lroundl) ; Can't use long double functions from the CRT on x86
 malloc
 mblen
-mbrlen
+; mbrlen ; use replacement
 mbrtoc16
 mbrtoc32
-mbrtowc
-mbsrtowcs
+; mbrtowc ; use replacement
+; mbsrtowcs ; use replacement
 mbsrtowcs_s
 mbstowcs
 mbstowcs_s
@@ -2618,7 +2618,7 @@ F_LD64(truncl) ; Can't use long double functions from the CRT on x86
 unexpected
 ungetc
 ungetwc
-wcrtomb
+; wcrtomb ; use replacement
 wcrtomb_s
 wcscat
 wcscat_s
@@ -2638,7 +2638,7 @@ wcsncpy_s
 wcsnlen
 wcspbrk
 wcsrchr
-wcsrtombs
+; wcsrtombs ; use replacement
 wcsrtombs_s
 wcsspn
 wcsstr
