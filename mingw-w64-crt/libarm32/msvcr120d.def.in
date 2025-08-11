@@ -2067,9 +2067,9 @@ lroundf
 lroundl
 malloc
 mblen
-mbrlen
-mbrtowc
-mbsrtowcs
+; mbrlen ; use replacement
+; mbrtowc ; use replacement
+; mbsrtowcs ; use replacement
 mbsrtowcs_s
 mbstowcs
 mbstowcs_s
@@ -2235,7 +2235,7 @@ vwprintf
 vwprintf_s
 vwscanf
 vwscanf_s
-wcrtomb
+; wcrtomb ; use replacement
 wcrtomb_s
 wcscat
 wcscat_s
@@ -2255,7 +2255,7 @@ wcsncpy_s
 wcsnlen
 wcspbrk
 wcsrchr
-wcsrtombs
+; wcsrtombs ; use replacement
 wcsrtombs_s
 wcsspn
 wcsstr
