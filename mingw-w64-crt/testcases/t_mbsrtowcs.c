@@ -192,7 +192,7 @@ int main (void) {
   assert (mbsinit (&state));
   assert (errno == 0);
   assert (buffer[8] == WEOF);
-
+#if __MSVCRT_VERSION__ >= 0x0200
   /**
    * Test DBCS code page
    */
@@ -372,6 +372,10 @@ int main (void) {
   assert (errno == EILSEQ);
   /* This assertion fails with CRT's version */
   assert (buffer[0] != WEOF && buffer[1] != WEOF && buffer[2] == WEOF);
+
+  // reset errno
+  _set_errno (0);
+#endif
 
   return 0;
 }

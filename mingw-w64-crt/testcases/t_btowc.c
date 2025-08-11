@@ -52,7 +52,7 @@ int main (void) {
   for (int c = 0x80; c < 0x100; ++c) {
     assert (btowc (c) != WEOF);
   }
-
+#if __MSVCRT_VERSION__ >= 0x0200
   /**
    * Test DBCS code page
    */
@@ -74,7 +74,7 @@ int main (void) {
       assert (btowc (c) == WEOF);
     }
   }
-
+#endif
 #ifdef _UCRT
   /**
    * Test UTF-8

@@ -148,7 +148,7 @@ int main (void) {
       break;
     }
   }
-
+#if __MSVCRT_VERSION__ >= 0x0200
   /**
    * Test DBCS code page
    */
@@ -202,6 +202,7 @@ int main (void) {
       break;
     }
   }
+#endif
 
   return 0;
 }

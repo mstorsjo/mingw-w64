@@ -88,7 +88,7 @@ int main (void) {
       break;
     }
   }
-
+#if __MSVCRT_VERSION__ >= 0x0200
   /**
    * Test DBCS code page
    */
@@ -142,6 +142,10 @@ int main (void) {
   assert (mbrlen ((char *) InvalidMultibyte, MB_CUR_MAX, &state) == (size_t) -1);
   assert (mbsinit (&state));
   assert (errno == EILSEQ);
+
+  // reset errno
+  _set_errno (0);
+#endif
 
   return 0;
 }

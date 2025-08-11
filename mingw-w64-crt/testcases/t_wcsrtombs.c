@@ -350,7 +350,7 @@ int main (void) {
 
   // reset errno
   _set_errno (0);
-
+#if __MSVCRT_VERSION__ >= 0x0200
   /**
    * Test DBCS code page
    */
@@ -565,6 +565,7 @@ int main (void) {
 
   // reset errno
   _set_errno (0);
+#endif
 
   return 0;
 }
