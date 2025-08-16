@@ -43,8 +43,10 @@ extern const PIMAGE_TLS_CALLBACK __dyn_tls_init_callback;
 
 extern int __mingw_app_type;
 
+extern void __mingw_do_global_ctors (void);
+extern void __mingw_do_global_dtors (void);
+
 static int argc;
-extern void __main(void);
 static _TCHAR **argv;
 static _TCHAR **envp;
 
@@ -216,7 +218,8 @@ __tmainCRTStartup (void)
 	  _amsg_exit (8); /* _RT_SPACEARG */
 
 	_initterm (__xc_a, __xc_z);
-	__main (); /* C++ initialization. */
+	__mingw_do_global_ctors ();
+	_crt_atexit (__mingw_do_global_dtors);
 
 	__native_startup_state = __initialized;
       }
