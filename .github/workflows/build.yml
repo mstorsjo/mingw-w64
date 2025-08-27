@@ -573,6 +573,8 @@ jobs:
           - x86_64
           - aarch64
           - arm64ec
+        exclude:
+          - { arch: arm64ec, crt: msvcrt }
     runs-on: ${{startsWith(matrix.arch, 'a') && 'windows-11-arm' || 'windows-latest'}}
     steps:
       - uses: msys2/setup-msys2@v2
