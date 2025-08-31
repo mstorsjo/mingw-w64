@@ -344,6 +344,10 @@ src_msvcrt=\
   misc/_get_timezone.c \
   misc/_get_tzname.c \
   misc/_get_wpgmptr.c \
+  misc/_invalid_parameter.c \
+  misc/_invalid_parameter_noinfo.c \
+  misc/_invalid_parameter_noinfo_noreturn.c \
+  misc/_invoke_watson.c \
   misc/_recalloc.c \
   misc/_set_purecall_handler.c \
   misc/imaxdiv.c \
@@ -906,6 +910,9 @@ src_pre_msvcr80=\
   misc/_get_tzname.c \
   misc/_get_wpgmptr.c \
   misc/_initterm_e.c \
+  misc/_invalid_parameter.c \
+  misc/_invalid_parameter_noinfo.c \
+  misc/_invoke_watson.c \
   misc/_recalloc.c \
   misc/_set_doserrno.c \
   misc/_set_errno.c \
@@ -926,6 +933,7 @@ src_pre_msvcr80=\
   string/wcstok.c
 
 src_pre_msvcr100=\
+  misc/_invalid_parameter_noinfo_noreturn.c \
   misc/imaxdiv.c
 
 src_pre_msvcr110=\
