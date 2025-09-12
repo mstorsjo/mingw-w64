@@ -79,7 +79,10 @@ jobs:
             rm llvm-mingw-*.zip
             mv llvm-mingw-* llvm-mingw
             rm -rf llvm-mingw/*-w64-mingw32 llvm-mingw/include
+            mkdir orig-dlls
+            mv llvm-mingw/bin/*.dll orig-dlls
             ../prepare-cross-toolchain.sh ../install/llvm-mingw llvm-mingw $arch
+            mv orig-dlls/*.dll llvm-mingw/bin
             TAG=testing
             NAME=llvm-mingw-$TAG-${{matrix.crt}}-$arch
             mv llvm-mingw $NAME
