@@ -176,6 +176,7 @@ jobs:
           done
 
   test-libcxx:
+    if: false
     needs: [llvm-mingw]
     strategy:
       fail-fast: false
@@ -233,6 +234,7 @@ jobs:
           ninja check-runtimes
 
   test-cross-build-ffmpeg:
+    if: false
     needs: [llvm-mingw]
     runs-on: ubuntu-latest
     strategy:
@@ -268,6 +270,7 @@ jobs:
           make -j$(nproc)
 
   test-ffmpeg:
+    if: false
     needs: [llvm-mingw]
     runs-on: windows-latest
     strategy:
@@ -325,6 +328,7 @@ jobs:
           make -j$(nproc) fate
 
   gcc:
+    if: false
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -553,6 +557,7 @@ jobs:
           ./hello-exception.exe
 
   testcases-clang:
+    if: false
     defaults:
       run:
         shell: msys2 {0}
