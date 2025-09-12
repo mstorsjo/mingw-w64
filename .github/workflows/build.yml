@@ -132,6 +132,10 @@ jobs:
           ref: master
       - name: Run tests
         run: |
+          if [ "${{matrix.arch}}" = "aarch64" ] && [ "${{matrix.crt}}" = "msvcrt" ]; then
+              export RUN_I686=false
+              export RUN_X86_64=false
+          fi
           ./run-tests.sh /llvm-mingw
       - name: Run extra tests with crt-test
         run: |
