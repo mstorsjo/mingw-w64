@@ -9,8 +9,6 @@ jobs:
       fail-fast: false
       matrix:
         crt:
-          - ucrt
-          - ucrtbase
           - msvcrt
     steps:
       - name: Check out llvm-mingw build scripts
@@ -68,7 +66,7 @@ jobs:
           mkdir cross
           cd cross
 
-          for arch in i686 x86_64 aarch64; do
+          for arch in aarch64; do
             src_crt=${{matrix.crt}}
             if [[ "$arch" = a* && "$src_crt" == "msvcrt" ]]; then
                 src_crt=ucrt
@@ -90,18 +88,6 @@ jobs:
           done
       - uses: actions/upload-artifact@v4
         with:
-          name: windows-${{matrix.crt}}-i686-toolchain
-          path: |
-            llvm-mingw-*-i686.zip
-          retention-days: 7
-      - uses: actions/upload-artifact@v4
-        with:
-          name: windows-${{matrix.crt}}-x86_64-toolchain
-          path: |
-            llvm-mingw-*-x86_64.zip
-          retention-days: 7
-      - uses: actions/upload-artifact@v4
-        with:
           name: windows-${{matrix.crt}}-aarch64-toolchain
           path: |
             llvm-mingw-*-aarch64.zip
@@ -116,12 +102,8 @@ jobs:
       fail-fast: false
       matrix:
         arch:
-          - x86_64
-          - i686
           - aarch64
         crt:
-          - ucrt
-          - ucrtbase
           - msvcrt
     runs-on: ${{startsWith(matrix.arch, 'a') && 'windows-11-arm' || 'windows-latest'}}
     steps:
