@@ -165,12 +165,14 @@ jobs:
               *-noansi) defs="$defs -D__USE_MINGW_ANSI_STDIO=0" ;;
               *-ansi) defs="$defs -D__USE_MINGW_ANSI_STDIO=1" ;;
               esac
-              name=crt-test-$arch-$crt
-              $arch-w64-mingw32-clang $defs -fno-builtin test/crt-test.c -o $name-regular.exe -lmingwex -l$lib -O2
-              $arch-w64-mingw32-clang $defs -fno-builtin test/crt-test.c -o $name-crt-first.exe -l$lib -O2
+              name=$arch-$crt
+              $arch-w64-mingw32-clang $defs -fno-builtin test/crt-test.c -o crt-test-$name-regular.exe -lmingwex -l$lib -O2
+              $arch-w64-mingw32-clang $defs -fno-builtin test/crt-test.c -o crt-test-$name-crt-first.exe -l$lib -O2
+              $arch-w64-mingw32-clang $defs test/setjmp.c -o setjmp-$name.exe -lmingwex -l$lib
+              $arch-w64-mingw32-clang $defs test/setjmp.c -o setjmp-$name-opt.exe -lmingwex -l$lib -O2
               echo $name
               case $arch in
-              ${{ runner.arch == 'ARM64' && 'aarch64|arm64ec' || '*86*' }}) ./$name-regular.exe ; ./$name-crt-first.exe ;;
+              ${{ runner.arch == 'ARM64' && 'aarch64|arm64ec' || '*86*' }}) ./crt-test-$name-regular.exe ; ./crt-test-$name-crt-first.exe; ./setjmp-$name.exe; ./setjmp-$name-opt.exe ;;
               esac
             done
           done
