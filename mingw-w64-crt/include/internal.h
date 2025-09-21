@@ -71,6 +71,11 @@ extern "C" {
 
 #define _NO_CONSOLE_FILENO (intptr_t)-2
 
+_CRTIMP int *__cdecl __p__commode(void);
+#ifndef _commode
+#define _commode (* __p__commode())
+#endif
+
 #ifndef _FILE_DEFINED
 #define _FILE_DEFINED
   struct _iobuf {

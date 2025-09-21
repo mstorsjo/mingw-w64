@@ -22,8 +22,6 @@
 
 extern IMAGE_DOS_HEADER __ImageBase;
 
-int *__cdecl __p__commode(void);
-
 #undef _fmode
 extern int _fmode;
 #undef _commode
