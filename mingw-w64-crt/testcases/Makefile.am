@@ -21,6 +21,7 @@ testcase_progs = \
   t_btowc \
   t_findfirst \
   t_float  \
+  t_freopen \
   t_fstat \
   t_intrinc \
   t_imagebase \

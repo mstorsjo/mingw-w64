@@ -173,8 +173,8 @@ fputwc
 fputws
 fread
 fread_s
-freopen
-freopen64 == freopen
+_freopen == freopen ; freopen replaced by emu because is not C99 compatible
+; freopen64 function is provided by stdio/freopen.c
 freopen_s
 fseek
 fseeko == fseek

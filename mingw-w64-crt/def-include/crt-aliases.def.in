@@ -298,7 +298,7 @@ ftello == ftell
 creat64 == _creat
 open64 == _open
 fopen64 == fopen
-freopen64 == freopen
+; freopen64 function is provided by stdio/freopen.c
 tmpfile64 == tmpfile
 #ifndef NO_FPOS64_ALIASES
 ; fgetpos and fsetpos are already 64-bit

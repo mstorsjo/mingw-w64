@@ -975,7 +975,7 @@ fputwc
 fputws
 fread
 free
-freopen
+_freopen == freopen ; freopen replaced by emu because is not C99 compatible
 frexp F_X86_NATIVE(DATA)
 fscanf
 fseek

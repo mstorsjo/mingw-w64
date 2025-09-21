@@ -1763,7 +1763,7 @@ fputws
 fread
 fread_s
 free
-freopen
+_freopen == freopen ; freopen replaced by emu because is not C99 compatible
 freopen_s
 frexp DATA ; overwritten
 fscanf

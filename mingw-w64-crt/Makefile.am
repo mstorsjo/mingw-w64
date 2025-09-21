@@ -183,6 +183,7 @@ src_msvcrt_common=\
   stdio/_strtof_l.c \
   stdio/_wcstof_l.c \
   stdio/acrt_iob_func.c \
+  stdio/freopen.c \
   stdio/strtof.c \
   stdio/snprintf_alias.c \
   stdio/snwprintf_alias.c \
@@ -443,6 +444,7 @@ src_ucrtbase=\
   stdio/ucrt__vsnwprintf.c \
   stdio/ucrt__vswprintf.c \
   stdio/ucrt_fprintf.c \
+  stdio/ucrt_freopen.c \
   stdio/ucrt_fscanf.c \
   stdio/ucrt_fwprintf.c \
   stdio/ucrt_fwscanf.c \
