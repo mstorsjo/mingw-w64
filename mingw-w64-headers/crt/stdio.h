@@ -148,7 +148,6 @@ _CRTIMP FILE *__cdecl __acrt_iob_func(unsigned index);
 #define _IOLBF 0x0040
 #define _IONBF 0x0004
 
-#ifndef _UCRT
 #define _IOREAD 0x0001
 #define _IOWRT 0x0002
 #define _IOMYBUF 0x0008
@@ -160,7 +159,6 @@ _CRTIMP FILE *__cdecl __acrt_iob_func(unsigned index);
 #define _IOAPPEND 0x0200
 #endif
 #define _IOCOMMIT 0x4000
-#endif
 
 /* used with _set_output_format which is not present in ucrt */
 #ifndef _UCRT
