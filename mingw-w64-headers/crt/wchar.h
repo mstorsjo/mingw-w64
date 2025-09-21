@@ -41,14 +41,36 @@ extern "C" {
 
 #ifndef _FILE_DEFINED
   struct _iobuf {
-    char *_ptr;
+    union {
+      void *_Placeholder; /* UCRT name in public header */
+      char *_ptr; /* msvcrt name and UCRT name in private header */
+    };
+#ifdef _UCRT
+    char *_base;
+    int _cnt;
+#else
     int _cnt;
     char *_base;
-    int _flag;
+#endif
+    union {
+      int _flags; /* UCRT name */
+      int _flag; /* msvcrt name */
+    };
     int _file;
     int _charbuf;
     int _bufsiz;
     char *_tmpfname;
+#ifdef _UCRT
+ #ifdef _WINDOWS_
+    CRITICAL_SECTION _lock;
+ #else /* building without windows.h */
+  #ifdef _WIN64
+    struct { char data[24]; } _lock; /* placeholder with same size as 64-bit CRITICAL_SECTION */
+  #else
+    struct { char data[40]; } _lock; /* placeholder with same size as 32-bit CRITICAL_SECTION */
+  #endif
+ #endif
+#endif
   };
   typedef struct _iobuf FILE;
 #define _FILE_DEFINED
