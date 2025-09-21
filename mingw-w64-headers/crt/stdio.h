@@ -159,6 +159,7 @@ _CRTIMP FILE *__cdecl __acrt_iob_func(unsigned index);
 #ifdef _POSIX_
 #define _IOAPPEND 0x0200
 #endif
+#define _IOCOMMIT 0x4000
 #endif
 
 /* used with _set_output_format which is not present in ucrt */
