@@ -42,7 +42,7 @@ typedef intptr_t spinlock_word_t;
 int
 pthread_spin_init (pthread_spinlock_t *lock, int pshared)
 {
-  spinlock_word_t *lk = (spinlock_word_t *)lock;
+  volatile spinlock_word_t *lk = (spinlock_word_t *)lock;
   *lk = -1;
   return 0;
 }
