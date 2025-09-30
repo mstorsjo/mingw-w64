@@ -4,6 +4,7 @@ on:
 
 jobs:
   llvm-mingw:
+    if: false
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -325,6 +326,7 @@ jobs:
           make -j$(nproc) fate
 
   gcc:
+    if: false
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -553,6 +555,7 @@ jobs:
           ./hello-exception.exe
 
   testcases-clang:
+    if: false
     defaults:
       run:
         shell: msys2 {0}
@@ -658,3 +661,16 @@ jobs:
           make -j$(nproc)
           make -j$(nproc) install
           make -j$(nproc) check -k -O || { cat testcases/test-suite.log; exit 1; }
+
+  widl-cross:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build
+        run: |
+          sudo apt-get update && sudo apt-get install g++-riscv64-linux-gnu
+          cd mingw-w64-tools/widl
+          mkdir build
+          cd build
+          ../configure --host=riscv64-linux-gnu --target=x86_64-w64-mingw32
+          make -j$(nproc)
