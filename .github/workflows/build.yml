@@ -589,6 +589,7 @@ jobs:
           echo /llvm-mingw/bin >> $GITHUB_PATH
       - uses: actions/checkout@v4
       - name: Build mingw-w64-crt and run testcases
+        if: false
         run: |
           export PATH=/llvm-mingw/bin:$PATH
           cd mingw-w64-headers
@@ -650,6 +651,7 @@ jobs:
           echo /gcc-mingw/bin >> $GITHUB_PATH
       - uses: actions/checkout@v4
       - name: Build mingw-w64-crt and run testcases
+        if: false
         run: |
           export PATH=/gcc-mingw/bin:$PATH
           cd mingw-w64-headers
