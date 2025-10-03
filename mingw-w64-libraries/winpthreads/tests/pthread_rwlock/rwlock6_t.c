@@ -107,7 +107,7 @@ main()
   assert(pthread_create(&rdt1, NULL, rdfunc, (void *) 1) == 0);
   Sleep(500);
   assert(pthread_create(&wrt2, NULL, wrfunc, NULL) == 0);
-  Sleep(1000);
+  Sleep(1500);
   assert(pthread_create(&rdt2, NULL, rdfunc, (void *) 2) == 0);
 
   assert(pthread_join(wrt1, (void **) &wr1Result) == 0);
