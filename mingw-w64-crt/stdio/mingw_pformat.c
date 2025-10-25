@@ -2501,7 +2501,11 @@ __pformat (int flags, void *dest, int max, const APICHAR *fmt, va_list argv)
             /* Now we invoke the appropriate format handler...
              */
             if( (length == PFORMAT_LENGTH_LONG)
-            ||  (length == PFORMAT_LENGTH_LLONG)  )
+            ||  (length == PFORMAT_LENGTH_LLONG)
+    #ifdef __BUILD_WIDEAPI
+            ||  (length == PFORMAT_LENGTH_INT)
+    #endif
+            )
             {
               /* considering any `long' type modifier as a reference to
                * `wchar_t' data, (which is promoted to an `int' argument)...
@@ -2537,7 +2541,11 @@ __pformat (int flags, void *dest, int max, const APICHAR *fmt, va_list argv)
 
           case 's':
             if( (length == PFORMAT_LENGTH_LONG)
-                 || (length == PFORMAT_LENGTH_LLONG))
+            ||  (length == PFORMAT_LENGTH_LLONG)
+    #ifdef __BUILD_WIDEAPI
+            ||  (length == PFORMAT_LENGTH_INT)
+    #endif
+            )
             {
               /* considering any `long' type modifier as a reference to
                * a `wchar_t' string...
