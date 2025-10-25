@@ -66,6 +66,7 @@
 #include <limits.h>
 #include <locale.h>
 #include <wchar.h>
+#include <ntdef.h>
 
 #ifdef __ENABLE_DFP
 #ifndef __STDC_WANT_DEC_FP__
@@ -2558,6 +2559,64 @@ __pformat (int flags, void *dest, int max, const APICHAR *fmt, va_list argv)
                */
               __pformat_puts( va_arg( argv, char * ), &stream );
             goto format_scan;
+
+          case 'Z':
+            /*
+             * The logic for `%Z` length modifier is quite complicated.
+             *
+             * for printf:
+             * `%Z`  - UNICODE_STRING for UCRT; ANSI_STRING for crtdll,msvcrt10,msvcrt,msvcr80-msvcr120
+             * `%hZ` - ANSI_STRING
+             * `%lZ` - UNICODE_STRING for UCRT; ANSI_STRING for crtdll,msvcrt10,msvcrt,msvcr80-msvcr120
+             * `%wZ` - UNICODE_STRING
+             *
+             * for wprintf:
+             * `%Z`  - ANSI_STRING
+             * `%hZ` - ANSI_STRING
+             * `%lZ` - UNICODE_STRING for UCRT; ANSI_STRING for crtdll,msvcrt10,msvcrt,msvcr80-msvcr120
+             * `%wZ` - UNICODE_STRING
+             *
+             * There are some other changes between versions regarding nul chars.
+             * - msvcrt since Vista, msvcr80+ and UCRT do not accept nul chars in ANSI_STRING for wprintf. They stop at nul char and returns -1.
+             * - crtdll, msvcrt10 and msvcrt before Vista accept nul char in ANSI_STRING for wprintf, but ANSI_STRING content after nul char is discarded.
+             * - ANSI_STRING for printf, and UNICODE_STRING for both printf and wprintf works fine in all versions.
+             *
+             * This mingw-w64 implementation uses UCRT behavior of length modifiers.
+             * And for compatibility with older msvcrt versions, it accepts also
+             * nul chars in ANSI_STRING for wprintf and discard content after
+             * nul char (like msvcrt).
+             */
+            if( length == PFORMAT_LENGTH_INT )
+            {
+    #ifndef __BUILD_WIDEAPI
+              length = PFORMAT_LENGTH_LONG;
+    #else
+              length = PFORMAT_LENGTH_SHORT;
+    #endif
+            }
+
+            if( (length == PFORMAT_LENGTH_LONG)
+                 || (length == PFORMAT_LENGTH_LLONG)
+              )
+            {
+              const UNICODE_STRING *s = va_arg( argv, UNICODE_STRING * );
+              const wchar_t *buf = (s && s->Buffer) ? (const wchar_t *)s->Buffer : L"(null)";
+              const int len = (s && s->Buffer) ? s->Length/sizeof(wchar_t) /* accept content after nul char */ : ( sizeof( "(null)" ) - 1 );
+              __pformat_wputchars( buf, len, &stream );
+            }
+            else
+            {
+              const ANSI_STRING *s = va_arg( argv, ANSI_STRING * );
+              const char *buf = (s && s->Buffer) ? (const char *)s->Buffer : "(null)";
+    #ifndef __BUILD_WIDEAPI
+              const int len = (s && s->Buffer) ? s->Length /* accept content after nul char */ : ( sizeof( "(null)" ) - 1 );
+    #else
+              const int len = (s && s->Buffer) ? strnlen( (const char *)s->Buffer, s->Length ) /* discard content after nul char */ : ( sizeof( "(null)" ) - 1 );
+    #endif
+              __pformat_putchars( buf, len, &stream );
+            }
+            goto format_scan;
+
           case 'm': /* strerror (errno)  */
             __pformat_puts (strerror (saved_errno), &stream);
             goto format_scan;
