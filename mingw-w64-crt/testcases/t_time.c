@@ -10,14 +10,17 @@ int __cdecl ftime64(struct __timeb64 *tb64);
 
 int main()
 {
-  time_t t;
-  __time32_t t32;
-  __time64_t t64;
+  time_t t, t_;
+  __time32_t t32, t32_;
+  __time64_t t64, t64_;
   struct timeb tb;
   struct _timeb tb_;
   struct __timeb32 tb32;
   struct __timeb64 tb64;
   struct tm *htm;
+  struct tm tm1;
+  struct tm tm2;
+  struct tm tm3;
   int ret1, ret2, ret3;
   const char *str;
   const wchar_t *wstr;
@@ -95,7 +98,49 @@ int main()
   assert (htm->tm_yday == 74);
   assert (htm->tm_isdst == 0);
 
-  /* ctime returns time string in local timezone, so set local timezone to UTC to have test timezone independent */
+  time_t times[] = {
+    1700000000 /* Tue Nov 14 22:13:20 UTC 2023 */,
+    1600000000 /* Sun Sep 13 12:26:40 UTC 2020 */,
+  };
+  for (size_t i = 0; i < sizeof(times)/sizeof(*times); i++) {
+    t = times[i];
+    htm = localtime (&t);
+    tm1 = *htm;
+    printf ("localtime(%lld):    sec=%d min=%d hour=%d mday=%d mon=%d year=%d wday=%d yday=%d isdst=%d\n",
+        (long long)t, htm->tm_sec, htm->tm_min, htm->tm_hour, htm->tm_mday, htm->tm_mon, htm->tm_year, htm->tm_wday, htm->tm_yday, htm->tm_isdst);
+    t_ = mktime (htm);
+    printf ("mktime(): %lld      sec=%d min=%d hour=%d mday=%d mon=%d year=%d wday=%d yday=%d isdst=%d\n",
+        (long long)t_, htm->tm_sec, htm->tm_min, htm->tm_hour, htm->tm_mday, htm->tm_mon, htm->tm_year, htm->tm_wday, htm->tm_yday, htm->tm_isdst);
+    assert (t_ == t);
+    assert (memcmp (htm, &tm1, sizeof(tm1)) == 0);
+
+    t32 = t;
+    htm = _localtime32 (&t32);
+    tm2 = *htm;
+    printf ("_localtime32(%d): sec=%d min=%d hour=%d mday=%d mon=%d year=%d wday=%d yday=%d isdst=%d\n",
+        t32, htm->tm_sec, htm->tm_min, htm->tm_hour, htm->tm_mday, htm->tm_mon, htm->tm_year, htm->tm_wday, htm->tm_yday, htm->tm_isdst);
+    t32_ = _mktime32 (htm);
+    printf ("_mktime32(): %d   sec=%d min=%d hour=%d mday=%d mon=%d year=%d wday=%d yday=%d isdst=%d\n",
+        t32_, htm->tm_sec, htm->tm_min, htm->tm_hour, htm->tm_mday, htm->tm_mon, htm->tm_year, htm->tm_wday, htm->tm_yday, htm->tm_isdst);
+    assert (t32_ == t32);
+    assert (memcmp (htm, &tm2, sizeof(tm2)) == 0);
+
+    t64 = t;
+    htm = _localtime64 (&t64);
+    tm3 = *htm;
+    printf ("_localtime64(%lld): sec=%d min=%d hour=%d mday=%d mon=%d year=%d wday=%d yday=%d isdst=%d\n",
+        t64, htm->tm_sec, htm->tm_min, htm->tm_hour, htm->tm_mday, htm->tm_mon, htm->tm_year, htm->tm_wday, htm->tm_yday, htm->tm_isdst);
+    t64_ = _mktime64 (htm);
+    printf ("_mktime64(): %lld   sec=%d min=%d hour=%d mday=%d mon=%d year=%d wday=%d yday=%d isdst=%d\n",
+        t64_, htm->tm_sec, htm->tm_min, htm->tm_hour, htm->tm_mday, htm->tm_mon, htm->tm_year, htm->tm_wday, htm->tm_yday, htm->tm_isdst);
+    assert (t64_ == t64);
+    assert (memcmp (htm, &tm3, sizeof(tm3)) == 0);
+
+    assert (memcmp (&tm1, &tm2, sizeof(tm1)) == 0);
+    assert (memcmp (&tm2, &tm3, sizeof(tm2)) == 0);
+  }
+
+  /* ctime, localtime and mktime returns time string in local timezone, so set local timezone to UTC to have test timezone independent */
   putenv ("TZ=UTC");
   tzset ();
 
@@ -108,6 +153,49 @@ int main()
   wstr = _wctime64 ( &t64 );
   printf ("_wctime64(1<<33): %ls", wstr);
   assert (wcscmp (wstr, L"Wed Mar 16 12:56:32 2242\n") == 0);
+
+  t64 = 1ULL << 33;
+  htm = _localtime64( &t64 );
+  printf ("_localtime64(1<<33): sec=%d min=%d hour=%d mday=%d mon=%d year=%d wday=%d yday=%d isdst=%d\n",
+      htm->tm_sec, htm->tm_min, htm->tm_hour, htm->tm_mday, htm->tm_mon, htm->tm_year, htm->tm_wday, htm->tm_yday, htm->tm_isdst);
+  assert (htm->tm_sec == 32);
+  assert (htm->tm_min == 56);
+  assert (htm->tm_hour == 12);
+  assert (htm->tm_mday == 16);
+  assert (htm->tm_mon == 2);
+  assert (htm->tm_year == 342);
+  assert (htm->tm_wday == 3);
+  assert (htm->tm_yday == 74);
+  assert (htm->tm_isdst == 0);
+
+  t64 = _mktime64 (htm);
+  printf ("_mktime64(): 0x%I64x sec=%d min=%d hour=%d mday=%d mon=%d year=%d wday=%d yday=%d isdst=%d\n",
+      t64, htm->tm_sec, htm->tm_min, htm->tm_hour, htm->tm_mday, htm->tm_mon, htm->tm_year, htm->tm_wday, htm->tm_yday, htm->tm_isdst);
+  assert (t64 == (1ULL << 33));
+  assert (htm->tm_sec == 32);
+  assert (htm->tm_min == 56);
+  assert (htm->tm_hour == 12);
+  assert (htm->tm_mday == 16);
+  assert (htm->tm_mon == 2);
+  assert (htm->tm_year == 342);
+  assert (htm->tm_wday == 3);
+  assert (htm->tm_yday == 74);
+  assert (htm->tm_isdst == 0);
+
+  htm->tm_min = 66; /* change 56 to 66 -> + 10 minutes */
+  t64 = _mktime64 (htm);
+  printf ("_mktime64(): 0x%I64x sec=%d min=%d hour=%d mday=%d mon=%d year=%d wday=%d yday=%d isdst=%d\n",
+      t64, htm->tm_sec, htm->tm_min, htm->tm_hour, htm->tm_mday, htm->tm_mon, htm->tm_year, htm->tm_wday, htm->tm_yday, htm->tm_isdst);
+  assert (t64 == (1ULL << 33) + 10*60); /* + 10 minutes */
+  assert (htm->tm_sec == 32);
+  assert (htm->tm_min == 6); /* 66 is changed to 6 */
+  assert (htm->tm_hour == 13); /* 12 is changed to 13 */
+  assert (htm->tm_mday == 16);
+  assert (htm->tm_mon == 2);
+  assert (htm->tm_year == 342);
+  assert (htm->tm_wday == 3);
+  assert (htm->tm_yday == 74);
+  assert (htm->tm_isdst == 0);
 
   return 0;
 }
