@@ -2466,10 +2466,18 @@ __pformat (int flags, void *dest, int max, const APICHAR *fmt, va_list argv)
 
           case 'C':
             /*
-             * Equivalent to `%lc'; set `length' accordingly,
-             * and simply fall through.
+             * If the explicit length modifier is not set
+             * then it is opposite of the default length
+             * modifier used by `%c`.
              */
-            length = PFORMAT_LENGTH_LONG;
+            if( length == PFORMAT_LENGTH_INT )
+            {
+    #ifndef __BUILD_WIDEAPI
+              length = PFORMAT_LENGTH_LONG;
+    #else
+              length = PFORMAT_LENGTH_SHORT;
+    #endif
+            }
 
             /* fallthrough */
 
@@ -2512,10 +2520,18 @@ __pformat (int flags, void *dest, int max, const APICHAR *fmt, va_list argv)
 
           case 'S':
             /*
-             * Equivalent to `%ls'; set `length' accordingly,
-             * and simply fall through.
+             * If the explicit length modifier is not set
+             * then it is opposite of the default length
+             * modifier used by `%s`.
              */
-            length = PFORMAT_LENGTH_LONG;
+            if( length == PFORMAT_LENGTH_INT )
+            {
+    #ifndef __BUILD_WIDEAPI
+              length = PFORMAT_LENGTH_LONG;
+    #else
+              length = PFORMAT_LENGTH_SHORT;
+    #endif
+            }
 
             /* fallthrough */
 
