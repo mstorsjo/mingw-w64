@@ -21,6 +21,9 @@ testcase_progs = \
   t_btowc \
   t_findfirst \
   t_float  \
+  t_format_CS \
+  t_format_CS0 \
+  t_format_CS1 \
   t_fstat \
   t_fstat_f64 \
   t_fstat_t64 \
