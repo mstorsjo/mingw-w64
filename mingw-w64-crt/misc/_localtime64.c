@@ -61,6 +61,7 @@ static struct tm *__cdecl emu__localtime64(const __time64_t *timeptr)
         t32 = _mkgmtime32(&tm32);
         if (t32 == -1)
             return NULL;
+        t32 += local_timezone;
         tmptr = _localtime32(&t32);
         if (!tmptr)
             return NULL;
