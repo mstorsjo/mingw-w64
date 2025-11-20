@@ -39,6 +39,10 @@ float fmaf(float x, float y, float z){
  * Multiplying two 13-bit numbers will cause a 1-ULP error, which we cannot
  * avoid. It is kept in the very last position.
  */
+
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wpacked"
+
 typedef union iec559_float_ {
   struct __attribute__((__packed__)) {
     uint32_t mlo : 13;
@@ -48,6 +52,8 @@ typedef union iec559_float_ {
   };
   float f;
 } iec559_float;
+
+#pragma GCC diagnostic pop
 
 static inline void break_down(iec559_float *restrict lo, iec559_float *restrict hi, float x) {
   hi->f = x;
