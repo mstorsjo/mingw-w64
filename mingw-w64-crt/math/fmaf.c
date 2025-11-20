@@ -40,7 +40,7 @@ float fmaf(float x, float y, float z){
  * avoid. It is kept in the very last position.
  */
 typedef union iec559_float_ {
-  struct __attribute__((__packed__)) {
+  struct {
     uint32_t mlo : 13;
     uint32_t mhi : 10;
     uint32_t exp :  8;

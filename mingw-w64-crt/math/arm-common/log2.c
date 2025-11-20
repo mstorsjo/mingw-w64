@@ -8,7 +8,7 @@
 #include <stdint.h>
 
 typedef union ieee754_double_ {
-  struct __attribute__((__packed__)) {
+  struct {
     uint64_t f52 : 52;
     uint64_t exp : 11;
     uint64_t sgn :  1;
@@ -17,7 +17,7 @@ typedef union ieee754_double_ {
 } ieee754_double;
 
 typedef union ieee754_float_ {
-  struct __attribute__((__packed__)) {
+  struct {
     uint32_t f23 : 23;
     uint32_t exp :  8;
     uint32_t sgn :  1;

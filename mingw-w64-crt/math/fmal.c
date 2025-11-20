@@ -31,7 +31,7 @@ long double fmal(long double x, long double y, long double z){
  * them in the other end.
  */
 typedef union x87reg_ {
-  struct __attribute__((__packed__)) {
+  struct {
     uint64_t mlo : 33;
     uint64_t mhi : 31;
     uint16_t exp : 15;
