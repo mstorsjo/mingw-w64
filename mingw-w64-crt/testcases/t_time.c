@@ -166,6 +166,7 @@ int main()
       tm2 = *htm;
       printf ("pacific _localtime32(%d): sec=%d min=%d hour=%d mday=%d mon=%d year=%d wday=%d yday=%d isdst=%d\n",
           t32, htm->tm_sec, htm->tm_min, htm->tm_hour, htm->tm_mday, htm->tm_mon, htm->tm_year, htm->tm_wday, htm->tm_yday, htm->tm_isdst);
+fflush(stdout);
       assert (pt_times[i].year == htm->tm_year + 1900);
       assert (pt_times[i].mon  == htm->tm_mon + 1);
       assert (pt_times[i].day  == htm->tm_mday);
@@ -176,6 +177,7 @@ int main()
       t32_ = _mktime32 (htm);
       printf ("pacific _mktime32(): %d   sec=%d min=%d hour=%d mday=%d mon=%d year=%d wday=%d yday=%d isdst=%d\n",
           t32_, htm->tm_sec, htm->tm_min, htm->tm_hour, htm->tm_mday, htm->tm_mon, htm->tm_year, htm->tm_wday, htm->tm_yday, htm->tm_isdst);
+fflush(stdout);
 #if __MSVCRT_VERSION__ < 0x800
       /* Versioned msvcrt libraries older than msvcr80 (and some system msvcrt version too)
        * have broken native 32-bit mktime function for timestamps around the DST change.
@@ -198,6 +200,7 @@ int main()
       tm1 = *htm;
       printf ("pacific localtime(%lld):    sec=%d min=%d hour=%d mday=%d mon=%d year=%d wday=%d yday=%d isdst=%d\n",
           (long long)t, htm->tm_sec, htm->tm_min, htm->tm_hour, htm->tm_mday, htm->tm_mon, htm->tm_year, htm->tm_wday, htm->tm_yday, htm->tm_isdst);
+fflush(stdout);
       assert (pt_times[i].year == htm->tm_year + 1900);
       assert (pt_times[i].mon  == htm->tm_mon + 1);
       assert (pt_times[i].day  == htm->tm_mday);
@@ -208,11 +211,13 @@ int main()
       t_ = mktime (htm);
       printf ("pacific mktime(): %lld      sec=%d min=%d hour=%d mday=%d mon=%d year=%d wday=%d yday=%d isdst=%d\n",
           (long long)t_, htm->tm_sec, htm->tm_min, htm->tm_hour, htm->tm_mday, htm->tm_mon, htm->tm_year, htm->tm_wday, htm->tm_yday, htm->tm_isdst);
+fflush(stdout);
       if (!skip_mktime_check) {
         assert (t_ == t);
         assert (memcmp (htm, &tm1, sizeof(tm1)) == 0);
       } else {
         printf ("Skipping mktime assert because of broken CRT library\n");
+fflush(stdout);
       }
     }
 
@@ -221,6 +226,7 @@ int main()
     tm3 = *htm;
     printf ("pacific _localtime64(%lld): sec=%d min=%d hour=%d mday=%d mon=%d year=%d wday=%d yday=%d isdst=%d\n",
         t64, htm->tm_sec, htm->tm_min, htm->tm_hour, htm->tm_mday, htm->tm_mon, htm->tm_year, htm->tm_wday, htm->tm_yday, htm->tm_isdst);
+fflush(stdout);
     assert (pt_times[i].year == htm->tm_year + 1900);
     assert (pt_times[i].mon  == htm->tm_mon + 1);
     assert (pt_times[i].day  == htm->tm_mday);
@@ -231,11 +237,13 @@ int main()
     t64_ = _mktime64 (htm);
     printf ("pacific _mktime64(): %lld   sec=%d min=%d hour=%d mday=%d mon=%d year=%d wday=%d yday=%d isdst=%d\n",
         t64_, htm->tm_sec, htm->tm_min, htm->tm_hour, htm->tm_mday, htm->tm_mon, htm->tm_year, htm->tm_wday, htm->tm_yday, htm->tm_isdst);
+fflush(stdout);
     if (!skip_mktime_check) {
       assert (t64_ == t64);
       assert (memcmp (htm, &tm3, sizeof(tm3)) == 0);
     } else {
       printf ("Skipping _mktime64 assert because of broken CRT library\n");
+fflush(stdout);
     }
 
     if (sizeof(t) >= 8 || pt_times[i].time <= INT_MAX)
@@ -255,6 +263,7 @@ int main()
   t64 = 1ULL << 33;
   str = _ctime64 ( &t64 );
   printf ("_ctime64(1<<33):  %s", str);
+fflush(stdout);
   assert (strcmp (str, "Wed Mar 16 12:56:32 2242\n") == 0);
 
   t64 = 1ULL << 33;
