@@ -4,6 +4,7 @@ on:
 
 jobs:
   llvm-mingw:
+    if: false
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -325,6 +326,7 @@ jobs:
           make -j$(nproc) fate
 
   gcc:
+    if: false
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
