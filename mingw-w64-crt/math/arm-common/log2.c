@@ -7,6 +7,9 @@
 #include <math.h>
 #include <stdint.h>
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wpacked"
+
 typedef union ieee754_double_ {
   struct __attribute__((__packed__)) {
     uint64_t f52 : 52;
@@ -24,6 +27,8 @@ typedef union ieee754_float_ {
   };
   float f;
 } ieee754_float;
+
+#pragma GCC diagnostic pop
 
 double log2(double x)
 {

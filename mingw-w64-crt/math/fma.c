@@ -39,6 +39,10 @@ double fma(double x, double y, double z){
  * Multiplying two 27-bit numbers will cause a 1-ULP error, which we cannot
  * avoid. It is kept in the very last position.
  */
+
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wpacked"
+
 typedef union iec559_double_ {
   struct __attribute__((__packed__)) {
     uint64_t mlo : 27;
@@ -48,6 +52,8 @@ typedef union iec559_double_ {
   };
   double f;
 } iec559_double;
+
+#pragma GCC diagnostic pop
 
 static inline void break_down(iec559_double *restrict lo, iec559_double *restrict hi, double x) {
   hi->f = x;

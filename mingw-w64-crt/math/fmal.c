@@ -30,6 +30,10 @@ long double fmal(long double x, long double y, long double z){
  * half, which reduces rounding errors in the more significant position but increases
  * them in the other end.
  */
+
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wpacked"
+
 typedef union x87reg_ {
   struct __attribute__((__packed__)) {
     uint64_t mlo : 33;
@@ -39,6 +43,8 @@ typedef union x87reg_ {
   };
   long double f;
 } x87reg;
+
+#pragma GCC diagnostic pop
 
 static inline void break_down(x87reg *restrict lo, x87reg *restrict hi, long double x) {
   hi->f = x;
