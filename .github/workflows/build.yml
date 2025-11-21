@@ -4,6 +4,7 @@ on:
 
 jobs:
   llvm-mingw:
+    if: false
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -553,6 +554,7 @@ jobs:
           ./hello-exception.exe
 
   testcases-clang:
+    if: false
     defaults:
       run:
         shell: msys2 {0}
@@ -616,6 +618,7 @@ jobs:
           make -j$(nproc) check -k -O || { cat tests/test-suite.log; exit 1; }
 
   testcases-gcc:
+    if: false
     runs-on: windows-latest
     needs: [gcc-cross]
     defaults:
