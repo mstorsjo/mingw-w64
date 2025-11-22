@@ -21,6 +21,7 @@ typedef union ieee754_double_ {
   };
   double f;
 } ieee754_double;
+_Static_assert(sizeof(ieee754_double) == sizeof(double), "sizeof(ieee754_double) == sizeof(double)");
 
 double frexp(double value, int* exp)
 {

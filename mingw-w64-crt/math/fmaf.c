@@ -48,6 +48,7 @@ typedef union iec559_float_ {
   };
   float f;
 } iec559_float;
+_Static_assert(sizeof(iec559_float) == sizeof(float), "sizeof(iec559_float) == sizeof(float)");
 
 static inline void break_down(iec559_float *restrict lo, iec559_float *restrict hi, float x) {
   hi->f = x;

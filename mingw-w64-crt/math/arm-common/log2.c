@@ -25,6 +25,9 @@ typedef union ieee754_float_ {
   float f;
 } ieee754_float;
 
+_Static_assert(sizeof(ieee754_double) == sizeof(double), "sizeof(ieee754_double) == sizeof(double)");
+_Static_assert(sizeof(ieee754_float) == sizeof(float), "sizeof(ieee754_float) == sizeof(float)");
+
 double log2(double x)
 {
     ieee754_double u = { .f = x };

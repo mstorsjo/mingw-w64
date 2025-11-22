@@ -39,6 +39,7 @@ typedef union x87reg_ {
   };
   long double f;
 } x87reg;
+//_Static_assert(sizeof(x87reg) == sizeof(long double), "sizeof(iec559_double) == sizeof(long double)");
 
 static inline void break_down(x87reg *restrict lo, x87reg *restrict hi, long double x) {
   hi->f = x;
