@@ -13,9 +13,6 @@ double frexp(double value, int* exp);
 /* It is assumed that `double` conforms to IEEE 754 and is little-endian.
  * This is true on x86 and ARM. */
 
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wpacked"
-
 typedef union ieee754_double_ {
   struct __attribute__((__packed__)) {
     uint64_t f52 : 52;
@@ -24,8 +21,6 @@ typedef union ieee754_double_ {
   };
   double f;
 } ieee754_double;
-
-#pragma GCC diagnostic pop
 
 double frexp(double value, int* exp)
 {
