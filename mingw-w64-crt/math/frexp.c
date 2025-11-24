@@ -14,7 +14,7 @@ double frexp(double value, int* exp);
  * This is true on x86 and ARM. */
 
 typedef union ieee754_double_ {
-  struct {
+  struct __attribute__((__packed__)) {
     uint64_t f52 : 52;
     uint64_t exp : 11;
     uint64_t sgn :  1;

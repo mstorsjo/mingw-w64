@@ -40,7 +40,7 @@ double fma(double x, double y, double z){
  * avoid. It is kept in the very last position.
  */
 typedef union iec559_double_ {
-  struct {
+  struct __attribute__((__packed__)) {
     uint64_t mlo : 27;
     uint64_t mhi : 25;
     uint64_t exp : 11;

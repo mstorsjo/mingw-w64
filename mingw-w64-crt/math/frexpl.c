@@ -21,7 +21,7 @@ long double frexpl(long double value, int* exp)
 
 /* https://en.wikipedia.org/wiki/Extended_precision#x86_extended_precision_format */
 typedef union x87reg_ {
-  struct {
+  struct __attribute__((__packed__)) {
     uint64_t f64;
     uint16_t exp : 15;
     uint16_t sgn :  1;
