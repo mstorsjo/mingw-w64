@@ -177,7 +177,6 @@ jobs:
           done
 
   test-libcxx:
-    needs: [llvm-mingw]
     strategy:
       fail-fast: false
       matrix:
@@ -187,11 +186,9 @@ jobs:
           - { arch: aarch64, target_arch: aarch64 }
     runs-on: ${{startsWith(matrix.arch, 'a') && 'windows-11-arm' || 'windows-latest'}}
     steps:
-      - uses: actions/download-artifact@v4
-        with:
-          name: windows-ucrt-${{matrix.arch}}-toolchain
       - name: Unpack toolchain
         run: |
+          curl -LO https://github.com/mstorsjo/llvm-mingw/releases/download/20250924/llvm-mingw-20250924-ucrt-${{matrix.arch}}.zip
           Expand-Archive llvm-mingw-*.zip -DestinationPath .
           del llvm-mingw-*.zip
           mv llvm-mingw-* c:\llvm-mingw
