@@ -203,6 +203,11 @@ jobs:
       - name: Checkout llvm-project
         run: |
           bash -c "CHECKOUT_ONLY=1 ./build-llvm.sh"
+          cd llvm-project
+          curl -LO https://github.com/llvm/llvm-project/commit/981dadcd60481939bdc8917c6f15cb6232313bc1.patch
+          git config --global user.email "root@localhost"
+          git config --global user.name "Git"
+          git am 981dadcd60481939bdc8917c6f15cb6232313bc1.patch
       - name: Build and test libcxx
         run: |
           cd llvm-project
