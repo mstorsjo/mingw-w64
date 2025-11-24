@@ -207,6 +207,7 @@ jobs:
           curl -LO https://github.com/llvm/llvm-project/commit/981dadcd60481939bdc8917c6f15cb6232313bc1.patch
           git config --global user.email "root@localhost"
           git config --global user.name "Git"
+          cat 981dadcd60481939bdc8917c6f15cb6232313bc1.patch
           git am 981dadcd60481939bdc8917c6f15cb6232313bc1.patch
       - name: Build and test libcxx
         run: |
