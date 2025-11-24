@@ -203,12 +203,13 @@ jobs:
       - name: Checkout llvm-project
         run: |
           bash -c "CHECKOUT_ONLY=1 ./build-llvm.sh"
+      - name: Backport a libcxx patch
+        run: |
           cd llvm-project
-          curl -LO https://github.com/llvm/llvm-project/commit/981dadcd60481939bdc8917c6f15cb6232313bc1.patch
+          git fetch --depth 2 origin 981dadcd60481939bdc8917c6f15cb6232313bc1
           git config --global user.email "root@localhost"
           git config --global user.name "Git"
-          cat 981dadcd60481939bdc8917c6f15cb6232313bc1.patch
-          git am 981dadcd60481939bdc8917c6f15cb6232313bc1.patch
+          git cherry-pick FETCH_HEAD
       - name: Build and test libcxx
         run: |
           cd llvm-project
