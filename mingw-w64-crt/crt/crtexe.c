@@ -19,6 +19,11 @@
 
 #if defined(__SEH__) && (!defined(__clang__) || __clang_major__ >= 7)
 #define SEH_INLINE_ASM
+#ifdef __arm__
+#define ASM_EXCEPT "%%except"
+#else
+#define ASM_EXCEPT "@except"
+#endif
 #endif
 
 extern IMAGE_DOS_HEADER __ImageBase;
@@ -89,26 +94,11 @@ int WinMainCRTStartup (void)
     .Handler = __mingw_SEH_error_handler,
   };
   __writefsdword (0, (DWORD)&exception_record); /* register SEH handler */
-#endif
-  int ret = 255;
-#ifdef SEH_INLINE_ASM
-  asm ("\t.l_startw:\n");
+#elif defined(SEH_INLINE_ASM)
+  asm volatile (".seh_handler %p0, " ASM_EXCEPT :: "i" (__mingw_SEH_error_handler)); /* applies for the whole function */
 #endif
   __mingw_app_type = 1;
-  ret = __tmainCRTStartup ();
-#ifdef SEH_INLINE_ASM
-  asm ("\tnop\n"
-    "\t.l_endw: nop\n"
-#ifdef __arm__
-    "\t.seh_handler __C_specific_handler, %except\n"
-#else
-    "\t.seh_handler __C_specific_handler, @except\n"
-#endif
-    "\t.seh_handlerdata\n"
-    "\t.long 1\n"
-    "\t.rva .l_startw, .l_endw, _gnu_exception_handler ,.l_endw\n"
-    "\t.text");
-#endif
+  int ret = __tmainCRTStartup ();
 #if defined(__i386__)
   __writefsdword (0, (DWORD)exception_record.Next); /* unregister SEH handler */
 #endif
@@ -130,26 +120,11 @@ int mainCRTStartup (void)
     .Handler = __mingw_SEH_error_handler,
   };
   __writefsdword (0, (DWORD)&exception_record); /* register SEH handler */
-#endif
-  int ret = 255;
-#ifdef SEH_INLINE_ASM
-  asm ("\t.l_start:\n");
+#elif defined(SEH_INLINE_ASM)
+  asm volatile (".seh_handler %p0, " ASM_EXCEPT :: "i" (__mingw_SEH_error_handler)); /* applies for the whole function */
 #endif
   __mingw_app_type = 0;
-  ret = __tmainCRTStartup ();
-#ifdef SEH_INLINE_ASM
-  asm ("\tnop\n"
-    "\t.l_end: nop\n"
-#ifdef __arm__
-    "\t.seh_handler __C_specific_handler, %except\n"
-#else
-    "\t.seh_handler __C_specific_handler, @except\n"
-#endif
-    "\t.seh_handlerdata\n"
-    "\t.long 1\n"
-    "\t.rva .l_start, .l_end, _gnu_exception_handler ,.l_end\n"
-    "\t.text");
-#endif
+  int ret = __tmainCRTStartup ();
 #if defined(__i386__)
   __writefsdword (0, (DWORD)exception_record.Next); /* unregister SEH handler */
 #endif
