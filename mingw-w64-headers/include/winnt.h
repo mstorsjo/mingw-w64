@@ -735,7 +735,7 @@ __MINGW_CXX14_CONSTEXPR inline ENUMTYPE& operator ^= (ENUMTYPE& a, ENUMTYPE b) {
 #define RTL_BITS_OF_FIELD(type,field) (RTL_BITS_OF(RTL_FIELD_TYPE(type,field)))
 #define CONTAINING_RECORD(address,type,field) ((type *)((PCHAR)(address) - (ULONG_PTR)(&((type *)0)->field)))
 
-    typedef EXCEPTION_DISPOSITION NTAPI EXCEPTION_ROUTINE (struct _EXCEPTION_RECORD *ExceptionRecord, PVOID EstablisherFrame, struct _CONTEXT *ContextRecord, PVOID DispatcherContext);
+    typedef EXCEPTION_DISPOSITION __cdecl EXCEPTION_ROUTINE (struct _EXCEPTION_RECORD *ExceptionRecord, PVOID EstablisherFrame, struct _CONTEXT *ContextRecord, PVOID DispatcherContext);
 #ifndef __PEXCEPTION_ROUTINE_DEFINED
 #define __PEXCEPTION_ROUTINE_DEFINED
     typedef EXCEPTION_ROUTINE *PEXCEPTION_ROUTINE;
