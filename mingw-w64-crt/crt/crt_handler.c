@@ -185,96 +185,22 @@ _gnu_exception_handler (EXCEPTION_POINTERS *exception_data);
 long CALLBACK
 _gnu_exception_handler (EXCEPTION_POINTERS *exception_data)
 {
-  void (*old_handler) (int);
-  long action = EXCEPTION_CONTINUE_SEARCH;
-  int reset_fpu = 0;
-
-#ifdef __SEH__
-  if ((exception_data->ExceptionRecord->ExceptionCode & 0x20ffffff) == GCC_MAGIC)
+  EXCEPTION_DISPOSITION action = __mingw_SEH_error_handler (exception_data->ExceptionRecord,
+                                                            NULL /* EstablisherFrame is unavailable */,
+                                                            exception_data->ContextRecord,
+                                                            NULL /* DispatcherContext is unavailable */);
+  switch (action)
     {
-      if ((exception_data->ExceptionRecord->ExceptionFlags & EXCEPTION_NONCONTINUABLE) == 0)
-        return EXCEPTION_CONTINUE_EXECUTION;
-    }
-#endif
+    case ExceptionContinueExecution:
+      return EXCEPTION_CONTINUE_EXECUTION;
 
-  switch (exception_data->ExceptionRecord->ExceptionCode)
-    {
-    case EXCEPTION_ACCESS_VIOLATION:
-      /* test if the user has set SIGSEGV */
-      old_handler = signal (SIGSEGV, SIG_DFL);
-      if (old_handler == SIG_IGN)
-	{
-	  /* this is undefined if the signal was raised by anything other
-	     than raise ().  */
-	  signal (SIGSEGV, SIG_IGN);
-	  action = EXCEPTION_CONTINUE_EXECUTION;
-	}
-      else if (old_handler != SIG_DFL)
-	{
-	  /* This means 'old' is a user defined function. Call it */
-	  (*old_handler) (SIGSEGV);
-	  action = EXCEPTION_CONTINUE_EXECUTION;
-	}
-      break;
+    case ExceptionContinueSearch:
+      return EXCEPTION_CONTINUE_SEARCH;
 
-    case EXCEPTION_ILLEGAL_INSTRUCTION:
-    case EXCEPTION_PRIV_INSTRUCTION:
-      /* test if the user has set SIGILL */
-      old_handler = signal (SIGILL, SIG_DFL);
-      if (old_handler == SIG_IGN)
-	{
-	  /* this is undefined if the signal was raised by anything other
-	     than raise ().  */
-	  signal (SIGILL, SIG_IGN);
-	  action = EXCEPTION_CONTINUE_EXECUTION;
-	}
-      else if (old_handler != SIG_DFL)
-	{
-	  /* This means 'old' is a user defined function. Call it */
-	  (*old_handler) (SIGILL);
-	  action = EXCEPTION_CONTINUE_EXECUTION;
-	}
-      break;
-
-    case EXCEPTION_FLT_INVALID_OPERATION:
-    case EXCEPTION_FLT_DIVIDE_BY_ZERO:
-    case EXCEPTION_FLT_DENORMAL_OPERAND:
-    case EXCEPTION_FLT_OVERFLOW:
-    case EXCEPTION_FLT_UNDERFLOW:
-    case EXCEPTION_FLT_INEXACT_RESULT:
-      reset_fpu = 1;
-      /* fall through. */
-
-    case EXCEPTION_INT_DIVIDE_BY_ZERO:
-    case EXCEPTION_INT_OVERFLOW:
-      /* test if the user has set SIGFPE */
-      old_handler = signal (SIGFPE, SIG_DFL);
-      if (old_handler == SIG_IGN)
-	{
-	  signal (SIGFPE, SIG_IGN);
-	  if (reset_fpu)
-	    _fpreset ();
-	  action = EXCEPTION_CONTINUE_EXECUTION;
-	}
-      else if (old_handler != SIG_DFL)
-	{
-	  /* This means 'old' is a user defined function. Call it */
-	  (*old_handler) (SIGFPE);
-	  action = EXCEPTION_CONTINUE_EXECUTION;
-	}
-      break;
-#ifdef _WIN64
-    case EXCEPTION_DATATYPE_MISALIGNMENT:
-    case EXCEPTION_ARRAY_BOUNDS_EXCEEDED:
-    case EXCEPTION_FLT_STACK_CHECK:
-    case EXCEPTION_INVALID_HANDLE:
-    /*case EXCEPTION_POSSIBLE_DEADLOCK: */
-      action = EXCEPTION_CONTINUE_EXECUTION;
-      break;
-#endif
+    /* unhandled */
+    case ExceptionNestedException:
+    case ExceptionCollidedUnwind:
     default:
-      break;
+      return EXCEPTION_CONTINUE_SEARCH;
     }
-
-  return action;
 }
