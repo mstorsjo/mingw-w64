@@ -51,10 +51,8 @@ static _TCHAR **envp;
 
 static int managedapp;
 static int has_cctor = 0;
-extern LPTOP_LEVEL_EXCEPTION_FILTER __mingw_oldexcpt_handler;
 
 extern void _pei386_runtime_relocator (void);
-long CALLBACK _gnu_exception_handler (EXCEPTION_POINTERS * exception_data);
 EXCEPTION_DISPOSITION __cdecl __mingw_SEH_error_handler (struct _EXCEPTION_RECORD *, void *, struct _CONTEXT *, void *);
 static int duplicate_ppstrings (int ac, _TCHAR ***av);
 
@@ -203,7 +201,6 @@ __tmainCRTStartup (void)
 #if defined(__x86_64__) && !defined(__SEH__)
 	__mingw_init_ehandler ();
 #endif
-	__mingw_oldexcpt_handler = SetUnhandledExceptionFilter (_gnu_exception_handler);
 	_set_invalid_parameter_handler (__mingw_invalidParameterHandler);
 	_fpreset ();
 

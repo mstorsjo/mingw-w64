@@ -179,8 +179,6 @@ __mingw_SEH_error_handler (struct _EXCEPTION_RECORD* ExceptionRecord,
   return action;
 }
 
-LPTOP_LEVEL_EXCEPTION_FILTER __mingw_oldexcpt_handler = NULL;
-
 long CALLBACK
 _gnu_exception_handler (EXCEPTION_POINTERS *exception_data);
 
@@ -278,7 +276,5 @@ _gnu_exception_handler (EXCEPTION_POINTERS *exception_data)
       break;
     }
 
-  if (action == EXCEPTION_CONTINUE_SEARCH && __mingw_oldexcpt_handler)
-    action = (*__mingw_oldexcpt_handler)(exception_data);
   return action;
 }
