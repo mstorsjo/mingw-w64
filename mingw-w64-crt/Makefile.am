@@ -669,6 +669,7 @@ src_msvcrt64=\
   misc/_get_current_locale.c \
   misc/_get_doserrno.c \
   misc/_get_fmode.c \
+  misc/_gmtime32.c \
   misc/_initterm_e.c \
   misc/_mkgmtime32.c \
   misc/_set_doserrno.c \
