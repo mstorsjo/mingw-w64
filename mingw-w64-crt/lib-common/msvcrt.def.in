@@ -1394,7 +1394,7 @@ F_ARM_ANY(_cwprintf_s_l) ; i386 and x64 _cwprintf_s_l replaced by emu
 _cwscanf_l
 _cwscanf_s
 _cwscanf_s_l
-_difftime32 F_I386(== difftime) ; i386 _difftime32 replaced by alias
+F_NON_X64(_difftime32 F_I386(== difftime)) ; i386 _difftime32 replaced by alias and x86 _difftime32 replaced by emu
 F_NON_I386(_difftime64 F_X64(== difftime)) ; i386 _difftime64 replaced by emu and x64 _difftime64 replaced by alias
 _ecvt_s
 F_I386(_except_handler4_common)

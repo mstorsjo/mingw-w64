@@ -662,6 +662,7 @@ src_msvcrt64=\
   misc/__tzname.c \
   misc/_create_locale.c \
   misc/_ctime32.c \
+  misc/_difftime32.c \
   misc/_free_locale.c \
   misc/_get_current_locale.c \
   misc/_get_doserrno.c \
