@@ -680,6 +680,7 @@ src_msvcrt64=\
   misc/_get_errno.c \
   misc/_set_errno.c \
   misc/_time32.c \
+  misc/_utime32.c \
   misc/strnlen.c \
   misc/wassert.c \
   misc/wcsnlen.c \

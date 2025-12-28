@@ -1683,7 +1683,7 @@ _ui64tow_s
 _ultoa_s
 _ultow_s
 F_ARM_ANY(_umask_s) ; i386 and x64 _umask_s replaced by emu
-_utime32 F_I386(== _utime) ; i386 _utime32 replaced by alias
+F_NON_X64(_utime32 F_I386(== _utime)) ; i386 _utime32 replaced by alias and x64 _utime32 replaced by emu
 _vcprintf
 _vcprintf_l
 _vcprintf_p
