@@ -23,14 +23,14 @@ static errno_t __cdecl emu_getenv_s(size_t *pReturnValue, char *dstBuf, rsize_t 
         return errno = EINVAL;
     }
 
+    /* After passing parameter validation, the errno is not changed. */
+
     if (!varName) {
         *pReturnValue = 0;
         if (dstBuf)
             dstBuf[0] = '\0';
-        return errno = EINVAL;
+        return 0;
     }
-
-    /* After passing parameter validation, the errno is not changed. */
 
     value = getenv(varName);
     if (!value) {
