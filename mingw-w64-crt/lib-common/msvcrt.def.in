@@ -1597,7 +1597,7 @@ _mbstrnlen
 _memicmp_l
 F_ARM_ANY(_mkgmtime32) ; i386 and x64 _mkgmtime32 replaced by emu
 F_ARM_ANY(_mktemp_s) ; i386 and x64 _mktemp_s replaced by emu
-_mktime32 F_I386(== mktime) ; i386 _mktime32 replaced by alias
+F_NON_X64(_mktime32 F_I386(== mktime)) ; i386 _mktime32 replaced by alias and x64 _mktime32 replaced by emu
 F_NON_I386(_msize_dbg)
 F_I386(_msize_debug)
 _printf_l

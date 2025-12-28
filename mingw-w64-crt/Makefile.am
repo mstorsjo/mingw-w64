@@ -673,6 +673,7 @@ src_msvcrt64=\
   misc/_initterm_e.c \
   misc/_localtime32.c \
   misc/_mkgmtime32.c \
+  misc/_mktime32.c \
   misc/_set_doserrno.c \
   misc/_set_fmode.c \
   misc/output_format.c \
