@@ -66,6 +66,7 @@ testcase_progs = \
   t_stderr_buffering \
   t_stdint \
   t_time \
+  t_time32 \
   t_tls1 \
   t_tmpfile \
   t_trycatch \
