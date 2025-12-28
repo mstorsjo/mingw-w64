@@ -1792,7 +1792,7 @@ _wtof_l
 _wtoi64_l
 _wtoi_l
 _wtol_l
-_wutime32 F_I386(== _wutime) ; i386 _wutime32 replaced by alias
+F_NON_X64(_wutime32 F_I386(== _wutime)) ; i386 _wutime32 replaced by alias and x64 _wutime32 replaced by emu
 F_ARM_ANY(asctime_s) ; i386 and x64 asctime_s replaced by emu
 bsearch_s
 ; btowc replaced by emu for consistency with wctob

@@ -682,6 +682,7 @@ src_msvcrt64=\
   misc/_time32.c \
   misc/_utime32.c \
   misc/_wctime32.c \
+  misc/_wutime32.c \
   misc/strnlen.c \
   misc/wassert.c \
   misc/wcsnlen.c \
