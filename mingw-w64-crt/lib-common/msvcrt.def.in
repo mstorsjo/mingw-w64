@@ -1503,7 +1503,7 @@ _itoa_s
 _itow_s
 _lfind_s
 F_I386(_local_unwind4)
-_localtime32 F_I386(== localtime) ; i386 _localtime32 replaced by alias
+F_NON_X64(_localtime32 F_I386(== localtime)) ; i386 _localtime32 replaced by alias and x64 _localtime32 replaced by emu
 F_ARM_ANY(_localtime32_s) ; i386 and x64 _localtime32_s replaced by emu
 F_ARM_ANY(_localtime64_s) ; i386 and x64 _localtime64_s replaced by emu
 _lsearch_s

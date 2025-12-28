@@ -671,6 +671,7 @@ src_msvcrt64=\
   misc/_get_fmode.c \
   misc/_gmtime32.c \
   misc/_initterm_e.c \
+  misc/_localtime32.c \
   misc/_mkgmtime32.c \
   misc/_set_doserrno.c \
   misc/_set_fmode.c \
