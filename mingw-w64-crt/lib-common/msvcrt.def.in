@@ -1673,7 +1673,7 @@ _swprintf_s_l
 _swscanf_l
 _swscanf_s_l
 _tempnam_dbg
-_time32 F_I386(== time) ; i386 _time32 replaced by alias
+F_NON_X64(_time32 F_I386(== time)) ; i386 _time32 replaced by alias and x64 _time32 replaced by emu
 _tolower_l
 _toupper_l
 _towlower_l
