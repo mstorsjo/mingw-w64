@@ -1410,7 +1410,7 @@ F_X86_ANY(_freea_s)
 _fscanf_l
 _fscanf_s_l
 F_ARM_ANY(_fseeki64) ; i386 and x64 _fseeki64 replaced by emu
-_ftime32 F_I386(== _ftime) ; i386 _ftime32 replaced by alias
+F_NON_X64(_ftime32 F_I386(== _ftime)) ; i386 _ftime32 replaced by alias and x64 _ftime32 replaced by emu
 _ftime32_s
 _ftime64_s
 F_I386(_ftol2)
