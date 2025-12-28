@@ -1383,7 +1383,7 @@ _crtDbgFlag
 _cscanf_l
 _cscanf_s
 _cscanf_s_l
-_ctime32 F_I386(== ctime) ; i386 _ctime32 replaced by alias
+F_NON_X64(_ctime32 F_I386(== ctime)) ; i386 _ctime32 replaced by alias and x64 _ctime32 replaced by emu
 F_ARM_ANY(_ctime32_s) ; i386 and x64 _ctime32_s replaced by emu
 F_ARM_ANY(_ctime64_s) ; i386 and x64 _ctime64_s replaced by emu
 _cwprintf_l
