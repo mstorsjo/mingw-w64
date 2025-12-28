@@ -1417,7 +1417,7 @@ F_I386(_ftol2)
 F_I386(_ftol2_sse)
 F_I386(_ftol2_sse_excpt)
 _fullpath_dbg
-_futime32 F_I386(== _futime) ; i386 _futime32 replaced by alias
+F_NON_X64(_futime32 F_I386(== _futime)) ; i386 _futime32 replaced by alias and x64 _futime32 replaced by emu
 _fwprintf_l
 _fwprintf_p
 _fwprintf_p_l
