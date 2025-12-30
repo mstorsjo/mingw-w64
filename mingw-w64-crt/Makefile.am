@@ -1257,6 +1257,7 @@ src_libmingwex=\
   misc/wmemset.c         misc/mingw-access.c \
   misc/ftw32.c           misc/ftw32i64.c            misc/ftw64.c            misc/ftw64i32.c \
   misc/__mingw_filename_cp.c \
+  misc/__mingw_isleadbyte_cp.c \
   \
   ssp/chk_fail.c         ssp/gets_chk.c             ssp/memcpy_chk.c        ssp/memmove_chk.c \
   ssp/mempcpy_chk.c \
