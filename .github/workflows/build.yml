@@ -340,36 +340,30 @@ jobs:
       - name: Download dependencies
         run: |
           sudo apt-get update && sudo apt-get install libgmp-dev libmpfr-dev libmpc-dev autoconf automake
-      - name: Cache tarballs
-        id: cache-gnu
-        uses: actions/cache@v5
+      - name: Check out binutils
+        uses: actions/checkout@v6
         with:
-          path: /opt/gnu
-          key: binutils-2.42-gcc-14.1.0
-      - name: Download tarballs
-        if: steps.cache-gnu.outputs.cache-hit != 'true'
-        run: |
-          mkdir -p /opt/gnu
-          cd /opt/gnu
-          curl -LO https://ftpmirror.gnu.org/gnu/gmp/gmp-6.3.0.tar.xz
-          curl -LO https://ftpmirror.gnu.org/gnu/mpfr/mpfr-4.2.1.tar.xz
-          curl -LO https://ftpmirror.gnu.org/gnu/mpc/mpc-1.3.1.tar.gz
-          curl -LO https://ftpmirror.gnu.org/gnu/binutils/binutils-2.42.tar.xz
-          curl -LO https://ftpmirror.gnu.org/gnu/gcc/gcc-14.1.0/gcc-14.1.0.tar.xz
+          repository: gnutools/binutils-gdb
+          ref: binutils-2_42
+          path: binutils
       - name: Build binutils
         run: |
-          tar -Jxf /opt/gnu/binutils-*.tar.xz
-          cd binutils-*
+          cd binutils
           mkdir build
           cd build
-          ../configure --prefix=$(pwd)/../../prefix --target=${{matrix.arch}}-w64-mingw32 --disable-werror --disable-multilib
+          ../configure --prefix=$(pwd)/../../prefix --target=${{matrix.arch}}-w64-mingw32 --disable-werror --disable-multilib --disable-gdb
           make -j$(nproc)
           make install-strip
           echo $(pwd)/../../prefix/bin >> $GITHUB_PATH
+      - name: Check out GCC
+        uses: actions/checkout@v6
+        with:
+          repository: gnutools/gcc
+          ref: releases/gcc-14.1.0
+          path: gcc
       - name: Build the base GCC
         run: |
-          tar -Jxf /opt/gnu/gcc-*.tar.xz
-          cd gcc-*
+          cd gcc
           mkdir build
           cd build
           ../configure --prefix=$(pwd)/../../prefix --target=${{matrix.arch}}-w64-mingw32 --enable-languages=c,c++ --disable-multilib --enable-threads=posix
@@ -404,7 +398,7 @@ jobs:
           make install
       - name: Build the GCC runtimes
         run: |
-          cd gcc-*
+          cd gcc
           cd build
           make -j$(nproc)
           make install-strip
@@ -447,7 +441,7 @@ jobs:
         uses: actions/cache@v5
         with:
           path: /opt/gnu
-          key: binutils-2.42-gcc-14.1.0
+          key: gmp-6.3.0-mpfr-4.2.1-mpc-1.3.1
       - name: Download tarballs
         if: steps.cache-gnu.outputs.cache-hit != 'true'
         run: |
@@ -456,8 +450,6 @@ jobs:
           curl -LO https://ftpmirror.gnu.org/gnu/gmp/gmp-6.3.0.tar.xz
           curl -LO https://ftpmirror.gnu.org/gnu/mpfr/mpfr-4.2.1.tar.xz
           curl -LO https://ftpmirror.gnu.org/gnu/mpc/mpc-1.3.1.tar.gz
-          curl -LO https://ftpmirror.gnu.org/gnu/binutils/binutils-2.42.tar.xz
-          curl -LO https://ftpmirror.gnu.org/gnu/gcc/gcc-14.1.0/gcc-14.1.0.tar.xz
       - name: Build dependencies
         run: |
           PREFIX=$(pwd)/prefix
@@ -489,20 +481,30 @@ jobs:
           make install
           cd ../..
 
+      - name: Check out binutils
+        uses: actions/checkout@v6
+        with:
+          repository: gnutools/binutils-gdb
+          ref: binutils-2_42
+          path: binutils
       - name: Build binutils
         run: |
-          tar -Jxf /opt/gnu/binutils-*.tar.xz
-          cd binutils-*
+          cd binutils
           mkdir build
           cd build
-          ../configure --prefix=$(pwd)/../../prefix --host=${{matrix.arch}}-w64-mingw32 --target=${{matrix.arch}}-w64-mingw32 --disable-werror --disable-multilib
+          ../configure --prefix=$(pwd)/../../prefix --host=${{matrix.arch}}-w64-mingw32 --target=${{matrix.arch}}-w64-mingw32 --disable-werror --disable-multilib --disable-gdb
           make -j$(nproc)
           make install-strip
           echo $(pwd)/../../prefix/bin >> $GITHUB_PATH
+      - name: Check out GCC
+        uses: actions/checkout@v6
+        with:
+          repository: gnutools/gcc
+          ref: releases/gcc-14.1.0
+          path: gcc
       - name: Build GCC
         run: |
-          tar -Jxf /opt/gnu/gcc-*.tar.xz
-          cd gcc-*
+          cd gcc
           mkdir build
           cd build
           ../configure --prefix=$(pwd)/../../prefix --host=${{matrix.arch}}-w64-mingw32 --target=${{matrix.arch}}-w64-mingw32 --enable-languages=c,c++ --disable-multilib --enable-threads=posix --with-gmp=$(pwd)/../../prefix --with-native-system-header-dir=/opt/gcc-mingw/${{matrix.arch}}-w64-mingw32/include --disable-bootstrap
