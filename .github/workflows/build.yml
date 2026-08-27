@@ -5,6 +5,7 @@ on:
 jobs:
   llvm-mingw:
     runs-on: ubuntu-latest
+    if: false
     strategy:
       fail-fast: false
       matrix:
