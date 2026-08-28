@@ -447,9 +447,9 @@ jobs:
         run: |
           mkdir -p /opt/gnu
           cd /opt/gnu
-          curl -LO https://ftpmirror.gnu.org/gnu/gmp/gmp-6.3.0.tar.xz
-          curl -LO https://ftpmirror.gnu.org/gnu/mpfr/mpfr-4.2.1.tar.xz
-          curl -LO https://ftpmirror.gnu.org/gnu/mpc/mpc-1.3.1.tar.gz
+          curl -LO https://gmplib.org/download/gmp/gmp-6.3.0.tar.xz
+          curl -LO https://www.mpfr.org/mpfr-4.2.1/mpfr-4.2.1.tar.xz
+          curl -LO https://www.multiprecision.org/downloads/mpc-1.3.1.tar.gz
       - name: Build dependencies
         run: |
           PREFIX=$(pwd)/prefix
