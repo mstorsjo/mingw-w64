@@ -330,6 +330,13 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        base:
+          - https://ftpmirror.gnu.org/gnu
+          - https://ftp.gnu.org/gnu
+          - https://mirror.us-midwest-1.nexcess.net/gnu
+          - https://mirrors.ocf.berkeley.edu/gnu
+          - https://mirror.cyberbits.eu/gnu
+          - https://mirror.team-cymru.com/gnu
         attempt:
           - 1
           - 2
@@ -340,11 +347,11 @@ jobs:
         run: |
           mkdir -p /opt/gnu
           cd /opt/gnu
-          curl -LO https://ftpmirror.gnu.org/gnu/gmp/gmp-6.3.0.tar.xz
-          curl -LO https://ftpmirror.gnu.org/gnu/mpfr/mpfr-4.2.1.tar.xz
-          curl -LO https://ftpmirror.gnu.org/gnu/mpc/mpc-1.3.1.tar.gz
-          curl -LO https://ftpmirror.gnu.org/gnu/binutils/binutils-2.42.tar.xz
-          curl -LO https://ftpmirror.gnu.org/gnu/gcc/gcc-14.1.0/gcc-14.1.0.tar.xz
+          curl -LO ${{matrix.base}}/gmp/gmp-6.3.0.tar.xz
+          curl -LO ${{matrix.base}}/mpfr/mpfr-4.2.1.tar.xz
+          curl -LO ${{matrix.base}}/mpc/mpc-1.3.1.tar.gz
+          curl -LO ${{matrix.base}}/binutils/binutils-2.42.tar.xz
+          curl -LO ${{matrix.base}}/gcc/gcc-14.1.0/gcc-14.1.0.tar.xz
       - name: Unpack
         run: |
           tar -Jxf /opt/gnu/gmp-*.tar.xz
