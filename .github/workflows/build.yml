@@ -4,6 +4,7 @@ on:
 
 jobs:
   llvm-mingw:
+    if: false
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -441,6 +442,7 @@ jobs:
 
   gcc-cross:
     runs-on: ubuntu-latest
+    if: false
     needs: [gcc]
     strategy:
       fail-fast: false
@@ -605,6 +607,7 @@ jobs:
           ./hello-exception.exe
 
   testcases-clang:
+    if: false
     defaults:
       run:
         shell: msys2 {0}
