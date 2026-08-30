@@ -330,12 +330,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        crt:
-          - ucrt
-          - msvcrt
-        arch:
-          - i686
-          - x86_64
+        attempt:
+          - 1
+          - 2
+          - 3
+          - 4
     steps:
       - name: Download tarballs
         run: |
