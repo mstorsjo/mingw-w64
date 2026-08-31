@@ -325,7 +325,7 @@ jobs:
           make fate-rsync
           make -j$(nproc) fate
 
-  gcc:
+  gnu-mirrors:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -360,10 +360,33 @@ jobs:
           tar -Jxf /opt/gnu/binutils-*.tar.xz
           tar -Jxf /opt/gnu/gcc-*.tar.xz
 
+  upstream:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        attempt:
+          - 1
+          - 2
+          - 3
+          - 4
+    steps:
+      - name: Download tarballs
+        run: |
+          mkdir -p /opt/gnu
+          cd /opt/gnu
+          wget --timeout=30 --tries=6 https://www.mpfr.org/mpfr-4.2.1/mpfr-4.2.1.tar.xz
+          wget --timeout=30 --tries=6 https://www.multiprecision.org/downloads/mpc-1.3.1.tar.gz
+          wget --timeout=30 --tries=6 https://gmplib.org/download/gmp/gmp-6.3.0.tar.xz
+      - name: Unpack
+        run: |
+          tar -Jxf /opt/gnu/gmp-*.tar.xz
+          tar -Jxf /opt/gnu/mpfr-*.tar.xz
+          tar -zxf /opt/gnu/mpc-*.tar.gz
+
   gcc-cross:
     runs-on: ubuntu-latest
     if: false
-    needs: [gcc]
     strategy:
       fail-fast: false
       matrix:
