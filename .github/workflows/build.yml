@@ -339,14 +339,7 @@ jobs:
       - name: Download dependencies
         run: |
           sudo apt-get update && sudo apt-get install libgmp-dev libmpfr-dev libmpc-dev autoconf automake
-      - name: Cache tarballs
-        id: cache-gnu
-        uses: actions/cache@v5
-        with:
-          path: /opt/gnu
-          key: binutils-2.42-gcc-14.1.0
       - name: Download tarballs
-        if: steps.cache-gnu.outputs.cache-hit != 'true'
         run: |
           mkdir -p /opt/gnu
           cd /opt/gnu
@@ -461,14 +454,7 @@ jobs:
           rm gcc-mingw-*.tar.xz
           sudo mv gcc-mingw* /opt/gcc-mingw
           echo /opt/gcc-mingw/bin >> $GITHUB_PATH
-      - name: Cache tarballs
-        id: cache-gnu
-        uses: actions/cache@v5
-        with:
-          path: /opt/gnu
-          key: binutils-2.42-gcc-14.1.0
       - name: Download tarballs
-        if: steps.cache-gnu.outputs.cache-hit != 'true'
         run: |
           mkdir -p /opt/gnu
           cd /opt/gnu
